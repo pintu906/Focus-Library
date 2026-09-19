@@ -1,0 +1,405 @@
+{% extends "stubase.html" %}
+
+{% block title %}
+Payment History - Focus Library
+{% endblock %}
+
+
+{% block content %}
+
+<div class="create-box">
+
+    <!-- ========================================= -->
+    <!-- HEADER -->
+    <!-- ========================================= -->
+
+    <div class="d-flex justify-content-between align-items-center">
+
+        <div>
+
+            <h2>
+                <i class="fa-solid fa-rupee-sign"></i>
+                Payment History
+            </h2>
+
+            <p class="text-muted mb-0">
+                Your membership and payment details
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                <i class="fa-solid fa-money-bill-wave"></i>
+
+                Payment Details
+
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover align-middle">
+
+
+                    <thead class="table-dark">
+
+                        <tr>
+
+                            <th>
+                                Payment Type
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        <!-- MEMBERSHIP -->
+
+                        <tr>
+
+                            <td>
+
+                                <i class="fa-solid fa-id-card"></i>
+
+                                Membership Payment
+
+                            </td>
+
+                            <td>
+
+                                ₹{{ "%.2f"|format(
+                                student.membership_payment or 0
+                                ) }}
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- LOCKER -->
+
+                        <tr>
+
+                            <td>
+
+                                <i class="fa-solid fa-box"></i>
+
+                                Locker Payment
+
+                            </td>
+
+                            <td>
+
+                                ₹{{ "%.2f"|format(
+                                student.locker_payment or 0
+                                ) }}
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- TOTAL -->
+
+                        <tr class="table-light">
+
+                            <th>
+
+                                Total Amount
+
+                            </th>
+                            <h3 class="mt-2" style="color: black !important;">
+
+                                ₹{{ "%.2f"|format(
+                                student.total_amount or 0
+                                ) }}
+
+                            </h3>
+
+                        </tr>
+
+
+                        <!-- PAID -->
+
+                        <tr>
+
+                            <td>
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                                Paid Amount
+
+                            </td>
+
+                            <td class="text-success">
+
+                                <strong>
+
+                                    ₹{{ "%.2f"|format(
+                                    student.paid_amount or 0
+                                    ) }}
+
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- DUE -->
+
+                        <tr>
+
+                            <td>
+
+                                <i class="fa-solid fa-circle-exclamation"></i>
+
+                                Due Amount
+
+                            </td>
+
+                            <td class="text-danger">
+
+                                <strong>
+
+                                    ₹{{ "%.2f"|format(
+                                    student.due_amount or 0
+                                    ) }}
+
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+
+                        <!-- STATUS -->
+
+                        <tr>
+
+                            <td>
+
+                                Payment Status
+
+                            </td>
+
+                            <td>
+
+
+                                {% if student.payment_status == "Paid" %}
+
+                                <span class="badge bg-success">
+
+                                    <i class="fa-solid fa-check"></i>
+
+                                    Paid
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    <i class="fa-solid fa-clock"></i>
+
+                                    Due
+
+                                </span>
+
+                                {% endif %}
+
+
+                            </td>
+
+                        </tr>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- PAYMENT SUMMARY -->
+    <!-- ========================================= -->
+
+    <div class="row g-3 mt-3">
+
+
+        <!-- TOTAL -->
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <small class="text-muted">
+                        Total Amount
+                    </small>
+
+                    <h3 class="mt-2" style="color: black !important;">
+
+                        ₹{{ "%.2f"|format(
+                        student.total_amount or 0
+                        ) }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PAID -->
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <small class="text-muted">
+                        Paid Amount
+                    </small>
+
+                    <h3 class="mt-2 text-success" style="color: black !important;">
+
+                        ₹{{ "%.2f"|format(
+                        student.paid_amount or 0
+                        ) }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- DUE -->
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <small class="text-muted">
+                        Due Amount
+                    </small>
+
+                    <h3 class="mt-2 text-danger">
+
+                        ₹{{ "%.2f"|format(
+                        student.due_amount or 0
+                        ) }}
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ========================================= -->
+    <!-- MEMBERSHIP STATUS -->
+    <!-- ========================================= -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-body text-center">
+
+
+            {% if student.membership_end %}
+
+            <p class="mb-2">
+
+                Membership valid until
+
+            </p>
+
+            <h4>
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                {{ student.membership_end.strftime('%d-%m-%Y') }}
+
+            </h4>
+
+
+            {% if student.membership_end >= today %}
+
+            <span class="badge bg-success mt-2">
+
+                Membership Active
+
+            </span>
+
+            {% else %}
+
+            <span class="badge bg-danger mt-2">
+
+                Membership Expired
+
+            </span>
+
+            {% endif %}
+
+
+            {% else %}
+
+            <span class="badge bg-secondary">
+
+                Membership Not Available
+
+            </span>
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

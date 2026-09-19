@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+
+{% block title %}Visit History{% endblock %}
+
+{% block content %}
+
+<div class="create-box">
+
+    <h2>
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        Visit History
+    </h2>
+
+
+    <!-- =============================== -->
+    <!-- SEARCH -->
+    <!-- =============================== -->
+
+    <form
+        method="GET"
+        action="{{ url_for('visit_history') }}"
+        style="margin-bottom: 20px;"
+    >
+
+        <div
+            style="
+                display:flex;
+                gap:10px;
+                align-items:center;
+            "
+        >
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search or '' }}"
+                class="form-control"
+                placeholder="Search by Name, Registration No. or Mobile No."
+            >
+
+            <button
+                type="submit"
+                class="btn btn-primary"
+            >
+                <i class="fa-solid fa-search"></i>
+                Search
+            </button>
+
+            <a
+                href="{{ url_for('visit_history') }}"
+                class="btn btn-secondary"
+            >
+                Clear
+            </a>
+
+        </div>
+
+    </form>
+
+
+    <!-- =============================== -->
+    <!-- VISIT HISTORY -->
+    <!-- =============================== -->
+
+    {% if visits %}
+
+    <div class="table-responsive">
+
+        <table
+            class="table table-bordered table-hover"
+        >
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Name
+                    </th>
+
+                    <th>
+                        Registration No.
+                    </th>
+
+                    <th>
+                        Mobile No.
+                    </th>
+
+                    <th>
+                        Seat No.
+                    </th>
+
+                    <th>
+                        Locker No.
+                    </th>
+
+                    <th>
+                        Visit Date
+                    </th>
+
+                    <th>
+                        Entry Time
+                    </th>
+
+                    <th>
+                        Exit Time
+                    </th>
+
+                    <th>
+                        Duration
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for visit in visits %}
+
+                <tr>
+
+                    <!-- NAME -->
+
+                    <td>
+
+                        {% if visit.student %}
+
+                            {{ visit.student.name }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- REGISTRATION -->
+
+                    <td>
+
+                        {% if visit.student %}
+
+                            {{ visit.student.reg_no }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- MOBILE -->
+
+                    <td>
+
+                        {% if visit.student %}
+
+                            {{ visit.student.phone or '-' }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- SEAT -->
+
+                    <td>
+
+                        {% if visit.seat_no %}
+
+                            <span class="badge bg-primary">
+                                Seat {{ visit.seat_no }}
+                            </span>
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- LOCKER -->
+
+                    <td>
+
+                        {% if visit.student %}
+
+                            {{ visit.student.locker_no or '-' }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- VISIT DATE -->
+
+                    <td>
+
+                        {% if visit.entry_time %}
+
+                            {{ visit.entry_time.strftime(
+                                "%d-%m-%Y"
+                            ) }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- ENTRY TIME -->
+
+                    <td>
+
+                        {% if visit.entry_time %}
+
+                            {{ visit.entry_time.strftime(
+                                "%I:%M %p"
+                            ) }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- EXIT TIME -->
+
+                    <td>
+
+                        {% if visit.exit_time %}
+
+                            {{ visit.exit_time.strftime(
+                                "%I:%M %p"
+                            ) }}
+
+                        {% else %}
+
+                            <span class="text-warning">
+                                Not Exited
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- DURATION -->
+
+                    <td>
+
+                        {{ visit.duration_hours or 0 }}
+                        Hours
+
+                    </td>
+
+
+                    <!-- STATUS -->
+
+                    <td>
+
+                        {% if visit.status == "Completed" %}
+
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
+
+                        {% elif visit.status == "Active" %}
+
+                            <span class="badge bg-warning text-dark">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                {{ visit.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+        <div
+            class="alert alert-info"
+            style="margin-top:20px;"
+        >
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            No visit history found.
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

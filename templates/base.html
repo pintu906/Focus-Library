@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}Focus Library{% endblock %}
+    </title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+</head>
+
+
+<body>
+
+    <div class="admin-dash">
+
+
+        <!-- ================================================= -->
+        <!-- NAVBAR -->
+        <!-- ================================================= -->
+
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+
+            <div class="container-fluid nav-box">
+
+                <!-- Logo -->
+                <a class="navbar-brand" href="{{ url_for('admin_dashboard') }}">
+                    <i class="fa-solid fa-book-open"></i>
+                    Focus Library
+                </a>
+
+
+                <!-- Admin Area -->
+                <div class="admin-logout">
+
+                    <p>
+                        <i class="fa-solid fa-user-shield"></i>
+
+                        {{ session.get('admin_email', 'Admin') }}
+                    </p>
+
+
+                    <!-- Logout Button -->
+                    <button class="btn btn-outline-success" type="button" data-bs-toggle="modal"
+                        data-bs-target="#logoutModal">
+                        Logout
+                    </button>
+
+
+                    <!-- Logout Modal -->
+                    <div class="modal fade" id="logoutModal" tabindex="-1">
+
+                        <div class="modal-dialog">
+
+                            <div class="modal-content">
+
+
+                                <div class="modal-header">
+
+                                    <h5 class="modal-title">
+                                        Confirm Logout
+                                    </h5>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                                </div>
+
+
+                                <div class="modal-body">
+
+                                    Are you sure you want to logout?
+
+                                </div>
+
+
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+
+
+                                    <a href="{{ url_for('logout') }}" class="btn btn-danger">
+                                        Logout
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+
+        <!-- Navbar line -->
+        <div class="line"></div>
+
+
+        <!-- ================================================= -->
+        <!-- MAIN AREA -->
+        <!-- ================================================= -->
+
+        <div class="admin-main">
+
+
+            <!-- ================================================= -->
+            <!-- LEFT SIDEBAR -->
+            <!-- ================================================= -->
+
+            <div class="left-admin">
+
+                <ul class="admin-menu">
+
+                    <!-- Dashboard -->
+                    <li>
+                        <a href="{{ url_for('admin_dashboard') }}">
+                            <h4>
+                                <i class="fa-solid fa-house"></i>
+                                Dashboard
+                            </h4>
+                        </a>
+                    </li>
+
+                    <!-- Books -->
+                    <li>
+                        <a href="{{ url_for('admin_books') }}">
+                            <h4>
+                                <i class="fa-solid fa-book"></i>
+                                Books
+                            </h4>
+                        </a>
+                    </li>
+
+                    <!-- Students -->
+                    <li>
+                        <a href="{{ url_for('admin_students') }}">
+                            <h4>
+                                <i class="fa-solid fa-user-graduate"></i>
+                                Students
+                            </h4>
+                        </a>
+                    </li>
+                    <!-- Issue Book -->
+                    <li>
+                        <a href="{{ url_for('student_entry') }}">
+                            <h4>
+                                <i class="fa-solid fa-book-open"></i>
+                                Entry
+                            </h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('seat_tracking') }}">
+                            <h4>
+                                <i class="fa-solid fa-chair"></i>
+                                Seat Tracking
+                            </h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('payment') }}">
+                            <h4>
+                                <i class="fa-solid fa-rupee-sign"></i>
+                                Payment
+                            </h4>
+                        </a>
+                    </li>
+                     
+                    <li>
+                        <a href="{{ url_for('visit_history') }}">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            <span>History</span>
+                        </a>
+                    </li>
+
+                </ul>
+                <!-- Seat Tracking -->
+
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- RIGHT CONTENT -->
+            <!-- ================================================= -->
+
+            <div class="right-admin">
+
+                {% block content %}
+
+                {% endblock %}
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- BOOTSTRAP JS -->
+    <!-- ================================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiCGXx4x7Y9L7sXh7XwqJ0fQfW5bQh8lP3bG"
+        crossorigin="anonymous"></script>
+
+
+</body>
+
+</html>

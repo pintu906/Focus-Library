@@ -1,0 +1,174 @@
+{% extends "stubase.html" %}
+
+{% block title %}
+My Profile - Focus Library
+{% endblock %}
+
+
+{% block content %}
+
+<div class="create-box">
+
+    <h2>
+
+        <i class="fa-solid fa-user"></i>
+
+        My Profile
+
+    </h2>
+
+
+    <div class="row g-3 mt-3">
+
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5>Personal Information</h5>
+
+                    <hr>
+
+                    <p>
+                        <strong>Name:</strong>
+                        {{ student.name }}
+                    </p>
+
+                    <p>
+                        <strong>Registration No:</strong>
+                        {{ student.reg_no }}
+                    </p>
+
+                    <p>
+                        <strong>Email:</strong>
+                        {{ student.email or '-' }}
+                    </p>
+
+                    <p>
+                        <strong>Phone:</strong>
+                        {{ student.phone or '-' }}
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5>Library Information</h5>
+
+                    <hr>
+
+                    <p>
+                        <strong>Seat No:</strong>
+                        {{ student.seat_no or 'Not Assigned' }}
+                    </p>
+
+                    <p>
+                        <strong>Locker No:</strong>
+                        {{ student.locker_no or '-' }}
+                    </p>
+
+                    <p>
+                        <strong>Slot:</strong>
+                        {{ student.shift_time or '-' }}
+                    </p>
+
+                    <p>
+                        <strong>Duration:</strong>
+                        {{ student.duration_hours or 0 }} Hours
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+
+                        {% if student.status == "Active" %}
+
+                            <span class="badge bg-success">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                {{ student.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-body">
+
+            <h5>
+                <i class="fa-solid fa-calendar-check"></i>
+                Membership
+            </h5>
+
+            <hr>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <strong>Membership Start</strong>
+
+                    <p>
+
+                        {% if student.membership_start %}
+                            {{ student.membership_start.strftime('%d-%m-%Y') }}
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <strong>Membership Expiry</strong>
+
+                    <p>
+
+                        {% if student.membership_end %}
+                            {{ student.membership_end.strftime('%d-%m-%Y') }}
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Payment{% endblock %}
+
+{% block content %}
+
+<div class="create-box">
+
+
+<h2 style="color:white;">
+     
+    Expired Membership / Pending Payment
+</h2>
+
+
+<!-- =========================
+     SEARCH
+========================== -->
+
+<form
+    method="GET"
+    action="{{ url_for('payment') }}"
+    style="margin-bottom:20px;"
+>
+
+    <div style="
+        display:flex;
+        gap:10px;
+    ">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search or '' }}"
+            class="form-control"
+            placeholder="Search by Name, Registration No. or Phone"
+        >
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Search
+        </button>
+
+        <a
+            href="{{ url_for('payment') }}"
+            class="btn btn-secondary"
+        >
+            Clear
+        </a>
+
+    </div>
+
+</form>
+
+
+<!-- =========================
+     STUDENTS
+========================== -->
+
+{% if students %}
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover">
+
+        <thead>
+
+            <tr>
+
+                <th>Name</th>
+
+                <th>Registration No.</th>
+
+                <th>Phone</th>
+
+                <th>Expiry Date</th>
+
+                <th>Due</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for student in students %}
+
+            <tr>
+
+                <!-- NAME -->
+
+                <td>
+                    {{ student.name }}
+                </td>
+
+
+                <!-- REGISTRATION -->
+
+                <td>
+                    {{ student.reg_no or '-' }}
+                </td>
+
+
+                <!-- PHONE -->
+
+                <td>
+                    {{ student.phone or '-' }}
+                </td>
+
+
+                <!-- EXPIRY -->
+
+                <td>
+
+                    {% if student.membership_end %}
+
+                        {{ student.membership_end.strftime('%d-%m-%Y') }}
+
+                    {% else %}
+
+                        -
+
+                    {% endif %}
+
+                </td>
+
+
+                <!-- DUE -->
+
+                <td>
+
+                    <strong>
+                        ₹{{ "%.2f"|format(student.due_amount or 0) }}
+                    </strong>
+
+                </td>
+
+
+                <!-- ACTION -->
+
+                <td>
+
+                    <a
+                        href="{{ url_for(
+                            'edit_payment',
+                            student_id=student.id
+                        ) }}"
+                        class="btn btn-success"
+                    >
+
+                        <i class="fa-solid fa-pen"></i>
+
+                        Pay / Renew
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+    <p style="color:#000;">
+        No pending payment or expired membership found.
+    </p>
+
+{% endif %}
+
+
+</div>
+
+{% endblock %}

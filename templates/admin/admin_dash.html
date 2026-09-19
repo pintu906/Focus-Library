@@ -1,0 +1,393 @@
+{% extends 'base.html' %}
+
+{% block title %}Focus Library - Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="create-box">
+
+    <!-- ================= HEADER ================= -->
+
+     
+
+    <!-- ================= STAT CARDS ================= -->
+
+    <div class="up-right">
+
+        <!-- Total Books -->
+        <div class="admin-box">
+
+            <div>
+                <h6>Total Books</h6>
+                <h3>{{ total_books }}</h3>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-book"></i>
+            </div>
+
+        </div>
+
+
+        <!-- Total Students -->
+        <div class="admin-box">
+
+            <div>
+                <h6>Total Students</h6>
+                <h3>{{ total_students }}</h3>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-user-graduate"></i>
+            </div>
+
+        </div>
+
+
+        <!-- Total Staff -->
+        <div class="admin-box">
+
+            <div>
+                <h6>Total Seats</h6>
+                <h3>{{ total_seats }}</h3>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-users"></i>
+            </div>
+
+        </div>
+
+
+        <!-- Issued Books -->
+        <div class="admin-box">
+
+            <div>
+                <h6>Issued Books</h6>
+                <h3>{{ total_issued }}</h3>
+            </div>
+
+            <div>
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RECENT BOOK ISSUES ================= -->
+
+    <h3 style="margin-top: 25px;">
+        Recent Book Issues
+    </h3>
+
+    <div>
+
+        <table class="table table-dark table-hover admin-table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Student</th>
+                    <th>Book</th>
+                    <th>Issue Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for issue in recent_issues %}
+
+                <tr>
+
+                    <th>
+                        I{{ issue.id }}
+                    </th>
+
+
+                    <!-- Student -->
+                    <td>
+                        {{ issue.student.name if issue.student else 'N/A' }}
+                    </td>
+
+
+                    <!-- Book -->
+                    <td>
+                        {{ issue.book.title if issue.book else 'N/A' }}
+                    </td>
+
+
+                    <!-- Issue Date -->
+                    <td>
+
+                        {% if issue.issue_date %}
+                            {{ issue.issue_date.strftime('%d-%m-%Y') }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Status -->
+                    <td>
+
+                        {% if issue.status == "Issued" %}
+
+                            <span class="badge bg-warning text-dark">
+                                Issued
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-success">
+                                Returned
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- Action -->
+                    <td>
+
+                        {% if issue.status == "Issued" %}
+
+                            <a
+                                href="{{ url_for('return_book', id=issue.id) }}"
+                                class="btn btn-sm btn-success"
+                            >
+                                Return
+                            </a>
+
+                        {% else %}
+
+                            <span class="text-muted">
+                                Completed
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="text-center"
+                    >
+                        No book issues found
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================= RECENT BOOKS ================= -->
+
+    <h3 style="margin-top: 25px;">
+        Recently Added Books
+    </h3>
+
+    <div>
+
+        <table class="table table-dark table-hover admin-table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Total Copies</th>
+                    <th>Available</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for book in books %}
+
+                <tr>
+
+                    <th>
+                        B{{ book.id }}
+                    </th>
+
+                    <td>
+                        {{ book.title }}
+                    </td>
+
+                    <td>
+                        {{ book.author or 'N/A' }}
+                    </td>
+
+                    <td>
+                        {{ book.category or 'N/A' }}
+                    </td>
+
+                    <td>
+                        {{ book.total_copies }}
+                    </td>
+
+                    <td>
+
+                        {% if book.available_copies > 0 %}
+
+                            <span class="badge bg-success">
+                                {{ book.available_copies }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-danger">
+                                0
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="text-center"
+                    >
+                        No books found
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================= RECENT STUDENTS ================= -->
+
+    <h3 style="margin-top: 25px;">
+        Recently Added Students
+    </h3>
+
+    <div>
+
+        <table class="table table-dark table-hover admin-table">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Registration No.</th>
+                    <th>Seat No.</th>
+                    <th>Status</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for student in students %}
+
+                <tr>
+
+                    <th>
+                        S{{ student.id }}
+                    </th>
+
+                    <td>
+                        {{ student.name }}
+                    </td>
+
+                    <td>
+                        {{ student.reg_no }}
+                    </td>
+
+                    <td>
+                        {{ student.seat_no or 'Not Assigned' }}
+                    </td>
+
+                    <td>
+
+                        {% if student.status == "Active" %}
+
+                            <span class="badge bg-success">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                {{ student.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+
+                {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="5"
+                        class="text-center"
+                    >
+                        No students found
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================= QUICK ACTIONS ================= -->
+
+     
+    
+
+</div>
+
+{% endblock %}

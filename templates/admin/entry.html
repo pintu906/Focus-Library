@@ -1,0 +1,324 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Entry{% endblock %}
+
+{% block content %}
+
+<div class="create-box">
+
+
+<h2>Student Entry</h2>
+
+<!-- SEARCH BOX -->
+
+<form
+    method="GET"
+    action="{{ url_for('student_entry') }}"
+    style="margin-bottom: 20px;"
+>
+
+    <div style="display: flex; gap: 10px;">
+
+        <input
+            type="text"
+            name="search"
+            value="{{ search or '' }}"
+            class="form-control"
+            placeholder="Search by Name or Registration No."
+        >
+
+        <button
+            type="submit"
+            class="btn btn-primary"
+        >
+            Search
+        </button>
+
+        <a
+            href="{{ url_for('student_entry') }}"
+            class="btn btn-secondary"
+        >
+            Clear
+        </a>
+
+    </div>
+
+</form>
+
+
+<!-- ========================================= -->
+<!-- ACTIVE STUDENTS -->
+<!-- ========================================= -->
+
+{% if students %}
+
+<div class="table-responsive">
+
+    <table class="table table-bordered table-hover">
+
+        <thead>
+
+            <tr>
+
+                <th>Name</th>
+                <th>Registration No.</th>
+                <th>Slot</th>
+                <th>Duration</th>
+                <th>Entry Time</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+            {% for student in students %}
+
+            <tr>
+
+                <!-- NAME -->
+
+                <td>
+                    {{ student.name }}
+                </td>
+
+
+                <!-- REGISTRATION NUMBER -->
+
+                <td>
+                    {{ student.reg_no }}
+                </td>
+
+
+                <!-- SLOT -->
+
+                <td>
+                    {{ student.shift_time or '-' }}
+                </td>
+
+
+                <!-- DURATION -->
+
+                <td>
+                    {{ student.duration_hours or 0 }} Hours
+                </td>
+
+
+                <!-- ENTRY TIME -->
+
+                <td>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'student_entry_time',
+                            student_id=student.id
+                        ) }}"
+                        style="
+                            display:flex;
+                            gap:5px;
+                            align-items:center;
+                        "
+                    >
+
+                        <input
+                            type="datetime-local"
+                            name="entry_time"
+                            class="form-control"
+                            required
+                        >
+
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                        >
+                            Entry
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% else %}
+
+    <p>No active students found.</p>
+
+{% endif %}
+
+
+<!-- ========================================= -->
+<!-- SHIFT COMPLETED / EXIT -->
+<!-- ========================================= -->
+
+<div
+    class="create-box"
+    style="margin-top: 30px;"
+>
+
+    <h2 style="color: white;">
+
+        <i class="fa-solid fa-clock"></i>
+
+        Shift Completed - Exit
+
+    </h2>
+
+
+    {% if completed_visits %}
+
+    <div class="table-responsive">
+
+        <table class="table table-bordered table-hover">
+
+            <thead>
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Registration No.</th>
+
+                    <th>Shift</th>
+
+                    <th>Duration</th>
+
+                    <th>Entry Time</th>
+
+                    <th>Exit</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for visit in completed_visits %}
+
+                <tr>
+
+                    <!-- NAME -->
+
+                    <td>
+                        {{ visit.student.name }}
+                    </td>
+
+
+                    <!-- REGISTRATION -->
+
+                    <td>
+                        {{ visit.student.reg_no }}
+                    </td>
+
+
+                    <!-- SHIFT -->
+
+                    <td>
+                        {{ visit.student.shift_time or '-' }}
+                    </td>
+
+
+                    <!-- DURATION -->
+
+                    <td>
+                        {{ visit.duration_hours or 0 }}
+                        Hours
+                    </td>
+
+
+                    <!-- ENTRY TIME -->
+
+                    <td>
+
+                        {% if visit.entry_time %}
+
+                            {{ visit.entry_time.strftime(
+                                "%d-%m-%Y %I:%M %p"
+                            ) }}
+
+                        {% else %}
+
+                            -
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- EXIT BUTTON -->
+
+                    <td>
+
+                        <form
+                            method="POST"
+                            action="{{ url_for(
+                                'set_exit_time',
+                                visit_id=visit.id
+                            ) }}"
+                            style="
+                                display:flex;
+                                gap:5px;
+                                align-items:center;
+                            "
+                        >
+
+                            <input
+                                type="datetime-local"
+                                name="exit_time"
+                                class="form-control"
+                                required
+                            >
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+
+                                <i class="fa-solid fa-right-from-bracket"></i>
+
+                                Exit
+
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+        <p class="text-muted mb-0" ;style="color: white;">
+
+            No student has completed their shift.
+
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+</div>
+
+{% endblock %}

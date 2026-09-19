@@ -1,0 +1,475 @@
+{% extends "stubase.html" %}
+
+{% block title %}
+Student Dashboard - Focus Library
+{% endblock %}
+
+
+{% block content %}
+
+<div class="create-box">
+
+    <div class="trek_heading">
+
+        <div>
+
+            <h2>
+                <i class="fa-solid fa-house"></i>
+                Student Dashboard
+            </h2>
+
+            <p class="text-muted mb-0">
+                Welcome, {{ student.name }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- BASIC INFORMATION -->
+
+    <div class="row g-3 mt-2">
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Student Name
+                    </small>
+
+                    <h5 class="mt-2">
+
+                        <i class="fa-solid fa-user"></i>
+
+                        {{ student.name }}
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Registration No.
+                    </small>
+
+                    <h5 class="mt-2">
+
+                        <i class="fa-solid fa-id-card"></i>
+
+                        {{ student.reg_no }}
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Phone
+                    </small>
+
+                    <h5 class="mt-2">
+
+                        <i class="fa-solid fa-phone"></i>
+
+                        {{ student.phone or '-' }}
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEAT / SLOT -->
+
+    <div class="row g-3 mt-1">
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Seat No.
+                    </small>
+
+                    <h4 class="mt-2">
+
+                        <i class="fa-solid fa-chair"></i>
+
+                        {% if student.seat_no %}
+                            {{ student.seat_no }}
+                        {% else %}
+                            Not Assigned
+                        {% endif %}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Slot Time
+                    </small>
+
+                    <h5 class="mt-2">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                        {{ student.shift_time or '-' }}
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Duration
+                    </small>
+
+                    <h5 class="mt-2">
+
+                        <i class="fa-solid fa-hourglass-half"></i>
+
+                        {{ student.duration_hours or 0 }} Hours
+
+                    </h5>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MEMBERSHIP -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                <i class="fa-solid fa-calendar-check"></i>
+
+                Membership Details
+
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <strong>Start Date</strong>
+
+                    <p>
+
+                        {% if student.membership_start %}
+                            {{ student.membership_start.strftime('%d-%m-%Y') }}
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <strong>Expiry Date</strong>
+
+                    <p>
+
+                        {% if student.membership_end %}
+                            {{ student.membership_end.strftime('%d-%m-%Y') }}
+                        {% else %}
+                            -
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <strong>Status</strong>
+
+                    <p>
+
+                        {% if student.status == "Active" %}
+
+                            <span class="badge bg-success">
+                                Active
+                            </span>
+
+                        {% else %}
+
+                            <span class="badge bg-secondary">
+                                {{ student.status }}
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PAYMENT -->
+
+    <div class="row g-3 mt-1">
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Total Amount
+                    </small>
+
+                    <h4 class="mt-2">
+
+                        ₹{{ "%.2f"|format(student.total_amount or 0) }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Paid Amount
+                    </small>
+
+                    <h4 class="mt-2 text-success">
+
+                        ₹{{ "%.2f"|format(student.paid_amount or 0) }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body">
+
+                    <small class="text-muted">
+                        Due Amount
+                    </small>
+
+                    <h4 class="mt-2 text-danger">
+
+                        ₹{{ "%.2f"|format(student.due_amount or 0) }}
+
+                    </h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SEAT AVAILABILITY -->
+
+    <div class="card shadow-sm mt-4">
+
+        <div class="card-header">
+
+            <h5 class="mb-0">
+
+                <i class="fa-solid fa-chair"></i>
+
+                Library Seat Availability
+
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-md-4">
+
+                    <h2>
+                        {{ total_seats }}
+                    </h2>
+
+                    <p class="text-muted">
+                        Total Seats
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <h2 class="text-danger">
+                        {{ reserved_seats }}
+                    </h2>
+
+                    <p class="text-muted">
+                        Occupied Seats
+                    </p>
+
+                </div>
+
+
+                <div class="col-md-4">
+
+                    <h2 class="text-success">
+                        {{ available_seats }}
+                    </h2>
+
+                    <p class="text-muted">
+                        Available Seats
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="text-center mt-3">
+
+                <a href="{{ url_for('student_seats') }}"
+                   class="btn btn-primary">
+
+                    <i class="fa-solid fa-chair"></i>
+
+                    View Available Seats
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- QUICK LINKS -->
+
+    <div class="row g-3 mt-3">
+
+        <div class="col-md-6">
+
+            <a href="{{ url_for('student_payment_history') }}"
+               class="btn btn-outline-success w-100 p-3">
+
+                <i class="fa-solid fa-money-bill-wave"></i>
+
+                Payment History
+
+            </a>
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <a href="{{ url_for('student_visit_history') }}"
+               class="btn btn-outline-primary w-100 p-3">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+
+                Entry History
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

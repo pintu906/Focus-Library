@@ -1,0 +1,775 @@
+{% extends "base.html" %}
+
+{% block title %}
+Seat Tracking
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    /* ============================= */
+    /* SEAT CONTAINER */
+    /* ============================= */
+
+    .seat-container {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(auto-fill, minmax(60px, 1fr));
+
+        gap: 12px;
+
+        padding: 20px;
+    }
+
+
+    /* ============================= */
+    /* SEAT */
+    /* ============================= */
+
+    .seat {
+
+        width: 50px;
+
+        height: 50px;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        margin: auto;
+
+        font-weight: bold;
+
+        font-size: 14px;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+
+        user-select: none;
+    }
+
+
+    .seat:hover {
+
+        transform: scale(1.10);
+    }
+
+
+    /* ============================= */
+    /* AVAILABLE SEAT */
+    /* ============================= */
+
+    .available {
+
+        background: #d1fae5;
+
+        color: #047857;
+
+        border: 3px solid #10b981;
+    }
+
+
+    /* ============================= */
+    /* RESERVED SEAT */
+    /* ============================= */
+
+    .reserved {
+
+        background: #fee2e2;
+
+        color: #b91c1c;
+
+        border: 3px solid #ef4444;
+    }
+
+
+    /* ============================= */
+    /* LEGEND */
+    /* ============================= */
+
+    .legend {
+
+        display: flex;
+
+        gap: 25px;
+
+        margin-bottom: 20px;
+
+        align-items: center;
+    }
+
+
+    .legend-item {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+    }
+
+
+    .legend-circle {
+
+        width: 18px;
+
+        height: 18px;
+
+        border-radius: 50%;
+    }
+
+
+    .legend-available {
+
+        background: #10b981;
+    }
+
+
+    .legend-reserved {
+
+        background: #ef4444;
+    }
+
+
+    /* ============================= */
+    /* STUDENT INFO */
+    /* ============================= */
+
+    .student-info-row {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        border-bottom: 1px solid #eee;
+
+        padding: 10px 0;
+    }
+
+
+    .student-info-label {
+
+        font-weight: 600;
+    }
+
+</style>
+
+
+<!-- ===================================================== -->
+<!-- MAIN CONTAINER -->
+<!-- ===================================================== -->
+
+<div class="container-fluid p-4">
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+
+        <div>
+
+            <h2>
+
+                <i class="fa-solid fa-chair"></i>
+
+                Seat Tracking
+
+            </h2>
+
+
+            <p class="text-muted mb-0">
+
+                Manage library seats
+
+            </p>
+
+        </div>
+
+
+        <!-- SEAT COUNTS -->
+
+        <div>
+
+            <span class="badge bg-success me-1">
+
+                Available:
+                {{ total_seats - reserved_students|length }}
+
+            </span>
+
+
+            <span class="badge bg-danger me-1">
+
+                Reserved:
+                {{ reserved_students|length }}
+
+            </span>
+
+
+            <span class="badge bg-dark">
+
+                Total:
+                {{ total_seats }}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- LEGEND -->
+    <!-- ================================================= -->
+
+    <div class="legend">
+
+
+        <div class="legend-item">
+
+            <div class="legend-circle legend-available"></div>
+
+            <span>
+                Available
+            </span>
+
+        </div>
+
+
+        <div class="legend-item">
+
+            <div class="legend-circle legend-reserved"></div>
+
+            <span>
+                Reserved
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- SEATS CARD -->
+    <!-- ================================================= -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+
+            <div class="seat-container">
+
+
+                {% for seat_no in range(1, total_seats + 1) %}
+
+
+                    <!-- ================================= -->
+                    <!-- RESERVED SEAT -->
+                    <!-- ================================= -->
+
+                    {% if seat_no in reserved_students %}
+
+
+                        <div
+                            class="seat reserved"
+
+                            data-bs-toggle="modal"
+
+                            data-bs-target="#seatModal{{ seat_no }}"
+
+                            title="Reserved Seat {{ seat_no }}"
+                        >
+
+                            {{ seat_no }}
+
+                        </div>
+
+
+                    {% else %}
+
+
+                        <!-- ================================= -->
+                        <!-- AVAILABLE SEAT -->
+                        <!-- ================================= -->
+
+                        <div
+                            class="seat available"
+
+                            data-bs-toggle="modal"
+
+                            data-bs-target="#reserveModal"
+
+                            onclick="selectSeat({{ seat_no }})"
+
+                            title="Available Seat {{ seat_no }}"
+                        >
+
+                            {{ seat_no }}
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- AVAILABLE SEAT MODAL -->
+<!-- ===================================================== -->
+
+<div
+    class="modal fade"
+    id="reserveModal"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+
+    <div class="modal-dialog">
+
+
+        <div class="modal-content">
+
+
+            <!-- HEADER -->
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    <i class="fa-solid fa-chair"></i>
+
+                    Reserve Seat
+
+                </h5>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <form
+                method="POST"
+                action="{{ url_for('reserve_seat') }}"
+            >
+
+
+                <div class="modal-body">
+
+
+                    <!-- SELECTED SEAT -->
+
+                    <div class="text-center mb-4">
+
+                        <h4>
+
+                            Seat No:
+
+                            <span
+                                id="selectedSeat"
+                                class="text-success"
+                            >
+                                -
+                            </span>
+
+                        </h4>
+
+                    </div>
+
+
+                    <!-- HIDDEN SEAT NUMBER -->
+
+                    <input
+                        type="hidden"
+                        name="seat_no"
+                        id="seatInput"
+                    >
+
+
+                    <!-- STUDENT -->
+
+                    <div class="mb-3">
+
+
+                        <label class="form-label">
+
+                            <strong>
+                                Select Student
+                            </strong>
+
+                        </label>
+
+
+                        <select
+                            name="student_id"
+                            class="form-select"
+                            required
+                        >
+
+
+                            <option value="">
+
+                                Select Student
+
+                            </option>
+
+
+                            {% for student in students %}
+
+
+                                {% if not student.seat_no %}
+
+
+                                    <option
+                                        value="{{ student.id }}"
+                                    >
+
+                                        {{ student.name }}
+
+                                        -
+
+                                        {{ student.reg_no }}
+
+                                    </option>
+
+
+                                {% endif %}
+
+
+                            {% endfor %}
+
+
+                        </select>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- FOOTER -->
+
+                <div class="modal-footer">
+
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                    >
+
+                        Cancel
+
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+
+                        <i class="fa-solid fa-check"></i>
+
+                        Reserve Seat
+
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- RESERVED SEAT MODALS -->
+<!-- ===================================================== -->
+
+{% for seat_no, student in reserved_students.items() %}
+
+
+<div
+    class="modal fade"
+    id="seatModal{{ seat_no }}"
+    tabindex="-1"
+    aria-hidden="true"
+>
+
+
+    <div class="modal-dialog">
+
+
+        <div class="modal-content">
+
+
+            <!-- ================================================= -->
+            <!-- MODAL HEADER -->
+            <!-- ================================================= -->
+
+            <div class="modal-header">
+
+
+                <h5 class="modal-title">
+
+                    <i class="fa-solid fa-chair"></i>
+
+                    Seat {{ seat_no }}
+
+                </h5>
+
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- STUDENT INFORMATION -->
+            <!-- ================================================= -->
+
+            <div class="modal-body">
+
+
+                <div class="student-info-row">
+
+                    <span class="student-info-label">
+                        Seat No.
+                    </span>
+
+                    <span>
+                        {{ seat_no }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="student-info-row">
+
+                    <span class="student-info-label">
+                        Student Name
+                    </span>
+
+                    <span>
+                        {{ student.name }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="student-info-row">
+
+                    <span class="student-info-label">
+                        Registration No.
+                    </span>
+
+                    <span>
+                        {{ student.reg_no }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="student-info-row">
+
+                    <span class="student-info-label">
+                        Mobile No.
+                    </span>
+
+                    <span>
+                        {{ student.phone or "-" }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="student-info-row">
+
+                    <span class="student-info-label">
+                        Shift Time
+                    </span>
+
+                    <span>
+                        {{ student.shift_time or "Not Set" }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="student-info-row">
+
+                    <span class="student-info-label">
+                        Duration
+                    </span>
+
+                    <span>
+
+                        {{ student.duration_hours or 0 }}
+
+                        Hours
+
+                    </span>
+
+                </div>
+
+
+
+                <div class="mt-3">
+
+                    <span class="badge bg-danger">
+
+                        <i class="fa-solid fa-circle"></i>
+
+                        Seat Reserved
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ================================================= -->
+            <!-- MODAL FOOTER -->
+            <!-- ================================================= -->
+
+            <div class="modal-footer">
+
+
+                <!-- RELEASE SEAT -->
+
+                <form
+                    method="POST"
+                    action="{{ url_for(
+                        'release_seat',
+                        student_id=student.id
+                    ) }}"
+                >
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+
+                        <i class="fa-solid fa-unlock"></i>
+
+                        Release Seat
+
+                    </button>
+
+
+                </form>
+
+
+                <!-- CLOSE -->
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                >
+
+                    Close
+
+                </button>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endfor %}
+
+
+
+<!-- ===================================================== -->
+<!-- JAVASCRIPT -->
+<!-- ===================================================== -->
+<script>
+function selectSeat(seatNo) {
+
+    document.getElementById("selectedSeat").innerText = seatNo;
+
+    document.getElementById("seatInput").value = seatNo;
+
+}
+</script>
+ 
+
+
+
+<!-- ===================================================== -->
+<!-- BOOTSTRAP JS -->
+<!-- ===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+{% endblock %}

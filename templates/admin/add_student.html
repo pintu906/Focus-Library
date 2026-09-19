@@ -1,0 +1,1264 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+
+<div class="create-box">
+
+    <!-- =========================
+     HEADER
+========================== -->
+
+    <div class="trek_heading">
+
+        <h2>
+            <i class="fa-solid fa-user-plus"></i>
+            Add Student
+        </h2>
+
+        <a href="{{ url_for('admin_students') }}" class="btn btn-secondary">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+     FORM
+========================== -->
+
+    <form method="POST" action="{{ url_for('add_student') }}" class="add-trek-form">
+
+        <div class="row g-3">
+
+
+            <!-- =========================
+             STUDENT NAME
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Student Name
+                </label>
+
+                <input type="text" name="name" class="form-control custom-input" placeholder="Enter student name"
+                    required>
+
+            </div>
+
+
+            <!-- =========================
+             REGISTRATION
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Registration No.
+                </label>
+
+                <input type="text" name="reg_no" class="form-control custom-input"
+                    placeholder="Enter registration number" required>
+
+            </div>
+
+
+            <!-- =========================
+             EMAIL
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Email
+                </label>
+
+                <input type="email" name="email" class="form-control custom-input" placeholder="Enter email">
+
+            </div>
+
+
+            <!-- =========================
+             PHONE
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Phone
+                </label>
+
+                <input type="tel" name="phone" class="form-control custom-input" placeholder="Enter phone number">
+
+            </div>
+
+
+            <!-- =========================
+             SEAT
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Seat No.
+                </label>
+
+                <input type="text" name="seat_no" class="form-control custom-input" placeholder="Example: A-01">
+
+            </div>
+
+
+            <!-- =========================
+             LOCKER
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Locker No.
+                </label>
+
+                <input type="text" name="locker_no" class="form-control custom-input" placeholder="Example: L-01">
+
+            </div>
+
+
+            <!-- =========================
+             SLOT TIME
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label slot-label">
+
+                    <i class="fa-solid fa-clock"></i>
+                    Slot Time
+
+                </label>
+
+
+                <div class="row g-2 align-items-end">
+
+
+                    <!-- START HOUR -->
+
+                    <div class="col-3">
+
+                        <label class="form-label small">
+                            Start
+                        </label>
+
+                        <select id="start_hour" name="start_hour" class="form-select slot-time-input" required>
+
+                            <option value="">
+                                Hour
+                            </option>
+
+                            {% for hour in range(1, 13) %}
+
+                            <option value="{{ hour }}">
+                                {{ hour }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- START AM / PM -->
+
+                    <div class="col-3">
+
+                        <label class="form-label small">
+                            &nbsp;
+                        </label>
+
+                        <select id="start_period" name="start_period" class="form-select slot-time-input" required>
+
+                            <option value="">
+                                AM/PM
+                            </option>
+
+                            <option value="AM">
+                                AM
+                            </option>
+
+                            <option value="PM">
+                                PM
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DASH -->
+
+                    <div class="col-1 text-center">
+
+                        <label class="form-label small">
+                            &nbsp;
+                        </label>
+
+                        <div class="text-white fs-5">
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <!-- END HOUR -->
+
+                    <div class="col-3">
+
+                        <label class="form-label small">
+                            End
+                        </label>
+
+                        <select id="end_hour" name="end_hour" class="form-select slot-time-input" required>
+
+                            <option value="">
+                                Hour
+                            </option>
+
+                            {% for hour in range(1, 13) %}
+
+                            <option value="{{ hour }}">
+                                {{ hour }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- END AM / PM -->
+
+                    <div class="col-2">
+
+                        <label class="form-label small">
+                            &nbsp;
+                        </label>
+
+                        <select id="end_period" name="end_period" class="form-select slot-time-input" required>
+
+                            <option value="">
+                                AM/PM
+                            </option>
+
+                            <option value="AM">
+                                AM
+                            </option>
+
+                            <option value="PM">
+                                PM
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                 AUTOMATIC DURATION
+            ========================== -->
+
+                <div class="mt-3">
+
+                    <label class="form-label">
+
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        Duration
+
+                    </label>
+
+                    <input type="text" id="duration_display" class="form-control slot-time-input"
+                        placeholder="Automatically calculated" readonly>
+
+                </div>
+
+
+                <!-- =========================
+                 HIDDEN VALUES
+            ========================== -->
+
+                <input type="hidden" name="shift_time" id="shift_time">
+
+                <input type="hidden" name="duration_hours" id="duration_hours">
+
+
+                <small class="slot-help">
+
+                    Select start and end time.
+                    Duration will be calculated automatically.
+
+                </small>
+
+            </div>
+
+
+            <!-- =========================
+             MEMBERSHIP START
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Membership Start Date
+                </label>
+
+                <input type="date" name="membership_start" id="membership_start" class="form-control custom-input"
+                    required>
+
+            </div>
+
+
+            <!-- =========================
+             MEMBERSHIP EXPIRY
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Membership Expiry Date
+                </label>
+
+                <input type="date" name="membership_end" id="membership_end" class="form-control custom-input" readonly>
+
+            </div>
+
+
+            <!-- =========================
+             MEMBERSHIP PAYMENT
+        ========================== -->
+
+
+            <!-- =========================
+     MEMBERSHIP PAYMENT
+========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Membership Payment (₹)
+                </label>
+
+                <input type="number" name="membership_payment" id="membership_payment" class="form-control custom-input"
+                    placeholder="Enter membership payment" min="0" step="0.01" value="0">
+
+            </div>
+
+
+            <!-- =========================
+     LOCKER PAYMENT
+========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Locker Payment (₹)
+                </label>
+
+                <input type="number" name="locker_payment" id="locker_payment" class="form-control custom-input"
+                    placeholder="Enter locker payment" min="0" step="0.01" value="0">
+
+            </div>
+
+
+            <!-- =========================
+     TOTAL AMOUNT
+========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Total Amount (₹)
+                </label>
+
+                <input type="number" id="total_amount" class="form-control custom-input" value="0.00" readonly>
+
+                <small class="text-muted">
+                    Membership + Locker Payment
+                </small>
+
+            </div>
+
+
+            <!-- =========================
+     PAYMENT STATUS
+========================== -->
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Payment Status
+                </label>
+
+                <select name="payment_status" id="payment_status" class="form-select custom-select">
+
+                    <option value="Paid">
+                        Paid
+                    </option>
+
+                    <option value="Due">
+                        Due
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =========================
+     DUE AMOUNT
+========================== -->
+
+            <div class="col-md-6" id="due_amount_box" style="display:none;">
+
+                <label class="form-label">
+                    Due Amount (₹)
+                </label>
+
+                <input type="number" name="due_amount" id="due_amount" class="form-control custom-input"
+                    placeholder="Enter due amount" min="0" step="0.01" value="0">
+
+            </div>
+
+
+            <!-- =========================
+     PAID AMOUNT
+========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Paid Amount (₹)
+                </label>
+
+                <input type="number" id="paid_amount" class="form-control custom-input" value="0.00" readonly>
+
+                <!-- Flask ko paid amount bhejne ke liye -->
+
+                <input type="hidden" name="paid_amount" id="paid_amount_hidden" value="0">
+
+            </div>
+
+
+            <!-- =========================
+     PAYMENT SUMMARY
+========================== -->
+
+            <div class="col-md-12">
+
+                <div class="payment-summary">
+
+                    <strong>
+                        Payment Summary
+                    </strong>
+
+                    <div class="mt-2">
+
+                        Total:
+                        ₹<span id="summary_total">0.00</span>
+
+                    </div>
+
+                    <div>
+
+                        Paid:
+                        ₹<span id="summary_paid">0.00</span>
+
+                    </div>
+
+                    <div>
+
+                        Due:
+                        ₹<span id="summary_due">0.00</span>
+
+                    </div>
+
+                    <div class="mt-2">
+
+                        Status:
+                        <strong id="summary_status">
+                            Paid
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+     PAYMENT JAVASCRIPT
+========================== -->
+
+
+
+
+
+            <!-- =========================
+             STATUS
+        ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Student Status
+                </label>
+
+                <select name="status" class="form-select custom-select">
+
+                    <option value="Active">
+                        Active
+                    </option>
+
+                    <option value="Inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+         BUTTONS
+    ========================== -->
+
+        <div class="add-submit mt-4">
+
+            <button type="submit" class="btn btn-success">
+
+                <i class="fa-solid fa-check"></i>
+                Add Student
+
+            </button>
+
+
+            <a href="{{ url_for('admin_students') }}" class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+
+</div>
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const membershipPayment =
+                document.getElementById(
+                    "membership_payment"
+                );
+
+            const lockerPayment =
+                document.getElementById(
+                    "locker_payment"
+                );
+
+            const totalAmount =
+                document.getElementById(
+                    "total_amount"
+                );
+
+            const paymentStatus =
+                document.getElementById(
+                    "payment_status"
+                );
+
+            const dueAmountBox =
+                document.getElementById(
+                    "due_amount_box"
+                );
+
+            const dueAmount =
+                document.getElementById(
+                    "due_amount"
+                );
+
+            const paidAmount =
+                document.getElementById(
+                    "paid_amount"
+                );
+
+            const paidAmountHidden =
+                document.getElementById(
+                    "paid_amount_hidden"
+                );
+
+            const summaryTotal =
+                document.getElementById(
+                    "summary_total"
+                );
+
+            const summaryPaid =
+                document.getElementById(
+                    "summary_paid"
+                );
+
+            const summaryDue =
+                document.getElementById(
+                    "summary_due"
+                );
+
+            const summaryStatus =
+                document.getElementById(
+                    "summary_status"
+                );
+
+
+            function calculatePayment() {
+
+                const membership =
+                    parseFloat(
+                        membershipPayment.value
+                    ) || 0;
+
+                const locker =
+                    parseFloat(
+                        lockerPayment.value
+                    ) || 0;
+
+
+                // TOTAL
+
+                const total =
+                    membership + locker;
+
+
+                totalAmount.value =
+                    total.toFixed(2);
+
+
+                let due = 0;
+                let paid = total;
+
+
+                // =========================
+                // DUE
+                // =========================
+
+                if (
+                    paymentStatus.value === "Due"
+                ) {
+
+                    due =
+                        parseFloat(
+                            dueAmount.value
+                        ) || 0;
+
+
+                    // Due cannot exceed total
+
+                    if (due > total) {
+
+                        due = total;
+
+                        dueAmount.value =
+                            total.toFixed(2);
+
+                    }
+
+
+                    if (due < 0) {
+
+                        due = 0;
+
+                        dueAmount.value = "0";
+
+                    }
+
+
+                    // PAID = TOTAL - DUE
+
+                    paid =
+                        total - due;
+
+                }
+
+
+                // =========================
+                // PAID
+                // =========================
+
+                else {
+
+                    due = 0;
+
+                    paid = total;
+
+                    dueAmount.value = "0";
+
+                }
+
+
+                // =========================
+                // SHOW PAID
+                // =========================
+
+                paidAmount.value =
+                    paid.toFixed(2);
+
+
+                paidAmountHidden.value =
+                    paid.toFixed(2);
+
+
+                // =========================
+                // SUMMARY
+                // =========================
+
+                summaryTotal.textContent =
+                    total.toFixed(2);
+
+                summaryPaid.textContent =
+                    paid.toFixed(2);
+
+                summaryDue.textContent =
+                    due.toFixed(2);
+
+                summaryStatus.textContent =
+                    paymentStatus.value;
+
+            }
+
+
+            // =========================
+            // PAYMENT STATUS
+            // =========================
+
+            function updatePaymentBox() {
+
+                if (
+                    paymentStatus.value === "Due"
+                ) {
+
+                    dueAmountBox.style.display =
+                        "block";
+
+                } else {
+
+                    dueAmountBox.style.display =
+                        "none";
+
+                    dueAmount.value = "0";
+
+                }
+
+                calculatePayment();
+
+            }
+
+
+            membershipPayment.addEventListener(
+                "input",
+                calculatePayment
+            );
+
+            lockerPayment.addEventListener(
+                "input",
+                calculatePayment
+            );
+
+            dueAmount.addEventListener(
+                "input",
+                calculatePayment
+            );
+
+            paymentStatus.addEventListener(
+                "change",
+                updatePaymentBox
+            );
+
+
+            // Initial calculation
+
+            calculatePayment();
+
+            updatePaymentBox();
+
+        }
+    );
+
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+
+        /* =====================================================
+           SLOT ELEMENTS
+        ===================================================== */
+
+        const startHour =
+            document.getElementById("start_hour");
+
+        const startPeriod =
+            document.getElementById("start_period");
+
+        const endHour =
+            document.getElementById("end_hour");
+
+        const endPeriod =
+            document.getElementById("end_period");
+
+        const shiftTimeInput =
+            document.getElementById("shift_time");
+
+        const durationDisplay =
+            document.getElementById("duration_display");
+
+        const durationHoursInput =
+            document.getElementById("duration_hours");
+
+
+        /* =====================================================
+           CONVERT 12-HOUR TIME TO MINUTES
+        ===================================================== */
+
+        function convertToMinutes(hour, period) {
+
+            hour = parseInt(hour);
+
+            if (period === "AM") {
+
+                if (hour === 12) {
+
+                    hour = 0;
+
+                }
+
+            } else {
+
+                if (hour !== 12) {
+
+                    hour += 12;
+
+                }
+
+            }
+
+            return hour * 60;
+
+        }
+
+
+        /* =====================================================
+           CALCULATE SLOT
+        ===================================================== */
+
+        function calculateSlot() {
+
+            if (
+                !startHour.value ||
+                !startPeriod.value ||
+                !endHour.value ||
+                !endPeriod.value
+            ) {
+
+                shiftTimeInput.value = "";
+
+                durationDisplay.value = "";
+
+                durationHoursInput.value = "";
+
+                return;
+
+            }
+
+
+            /* START TIME */
+
+            let startMinutes =
+                convertToMinutes(
+                    startHour.value,
+                    startPeriod.value
+                );
+
+
+            /* END TIME */
+
+            let endMinutes =
+                convertToMinutes(
+                    endHour.value,
+                    endPeriod.value
+                );
+
+
+            /*
+             * If end time is before start time,
+             * assume it goes to the next day.
+             *
+             * Example:
+             * 10 PM → 4 AM
+             * = 6 Hours
+             */
+
+            if (endMinutes <= startMinutes) {
+
+                endMinutes += 24 * 60;
+
+            }
+
+
+            /* DIFFERENCE */
+
+            const difference =
+                endMinutes - startMinutes;
+
+
+            /* HOURS */
+
+            const hours =
+                difference / 60;
+
+
+            /* =================================================
+               CREATE SLOT TEXT
+            ================================================= */
+
+            const slot =
+                `${startHour.value}:00 ${startPeriod.value} - ` +
+                `${endHour.value}:00 ${endPeriod.value}`;
+
+
+            /* SAVE SLOT */
+
+            shiftTimeInput.value =
+                slot;
+
+
+            /* =================================================
+               SHOW DURATION
+            ================================================= */
+
+            if (hours % 1 === 0) {
+
+                durationDisplay.value =
+                    `${hours} Hours`;
+
+            } else {
+
+                durationDisplay.value =
+                    `${hours.toFixed(2)} Hours`;
+
+            }
+
+
+            /* SAVE DURATION */
+
+            durationHoursInput.value =
+                hours;
+
+        }
+
+
+        /* =====================================================
+           SLOT EVENTS
+        ===================================================== */
+
+        startHour.addEventListener(
+            "change",
+            calculateSlot
+        );
+
+        startPeriod.addEventListener(
+            "change",
+            calculateSlot
+        );
+
+        endHour.addEventListener(
+            "change",
+            calculateSlot
+        );
+
+        endPeriod.addEventListener(
+            "change",
+            calculateSlot
+        );
+
+
+        /* =====================================================
+           MEMBERSHIP DATE
+        ===================================================== */
+
+        const membershipStart =
+            document.getElementById("membership_start");
+
+        const membershipEnd =
+            document.getElementById("membership_end");
+
+
+        membershipStart.addEventListener(
+            "change",
+            function () {
+
+                if (!this.value) {
+
+                    membershipEnd.value = "";
+
+                    return;
+
+                }
+
+
+                const date =
+                    new Date(
+                        this.value + "T00:00:00"
+                    );
+
+
+                date.setMonth(
+                    date.getMonth() + 1
+                );
+
+
+                const year =
+                    date.getFullYear();
+
+
+                const month =
+                    String(
+                        date.getMonth() + 1
+                    ).padStart(2, "0");
+
+
+                const day =
+                    String(
+                        date.getDate()
+                    ).padStart(2, "0");
+
+
+                membershipEnd.value =
+                    `${year}-${month}-${day}`;
+
+            }
+        );
+
+
+        /* =====================================================
+           PAYMENT ELEMENTS
+        ===================================================== */
+
+        const membershipPayment =
+            document.getElementById("membership_payment");
+
+        const lockerPayment =
+            document.getElementById("locker_payment");
+
+        const totalAmount =
+            document.getElementById("total_amount");
+
+        const paymentStatus =
+            document.getElementById("payment_status");
+
+        const dueAmountBox =
+            document.getElementById("due_amount_box");
+
+        const dueAmount =
+            document.getElementById("due_amount");
+
+
+        /* =====================================================
+           CALCULATE TOTAL
+        ===================================================== */
+
+        function calculateTotal() {
+
+            const membership =
+                parseFloat(
+                    membershipPayment.value
+                ) || 0;
+
+
+            const locker =
+                parseFloat(
+                    lockerPayment.value
+                ) || 0;
+
+
+            const total =
+                membership + locker;
+
+
+            totalAmount.value =
+                total.toFixed(2);
+
+
+            const currentDue =
+                parseFloat(
+                    dueAmount.value
+                ) || 0;
+
+
+            if (currentDue > total) {
+
+                dueAmount.value =
+                    total.toFixed(2);
+
+            }
+
+        }
+
+
+        membershipPayment.addEventListener(
+            "input",
+            calculateTotal
+        );
+
+
+        lockerPayment.addEventListener(
+            "input",
+            calculateTotal
+        );
+
+
+        /* =====================================================
+           PAYMENT STATUS
+        ===================================================== */
+
+        function updatePaymentStatus() {
+
+            if (
+                paymentStatus.value === "Due"
+            ) {
+
+                dueAmountBox.style.display =
+                    "block";
+
+            } else {
+
+                dueAmountBox.style.display =
+                    "none";
+
+                dueAmount.value =
+                    "0";
+
+            }
+
+        }
+
+
+        paymentStatus.addEventListener(
+            "change",
+            updatePaymentStatus
+        );
+
+
+        /* =====================================================
+           DUE AMOUNT VALIDATION
+        ===================================================== */
+
+        dueAmount.addEventListener(
+            "input",
+            function () {
+
+                const total =
+                    parseFloat(
+                        totalAmount.value
+                    ) || 0;
+
+
+                let due =
+                    parseFloat(
+                        this.value
+                    ) || 0;
+
+
+                if (due < 0) {
+
+                    due = 0;
+
+                }
+
+
+                if (due > total) {
+
+                    due = total;
+
+                }
+
+
+                this.value =
+                    due;
+
+            }
+        );
+
+
+        /* =====================================================
+           FORM SUBMIT
+        ===================================================== */
+
+        document
+            .querySelector(".add-trek-form")
+            .addEventListener(
+                "submit",
+                function (event) {
+
+
+                    /*
+                     * Calculate one final time
+                     * before sending form.
+                     */
+
+                    calculateSlot();
+
+
+                    if (
+                        !shiftTimeInput.value ||
+                        !durationHoursInput.value
+                    ) {
+
+                        event.preventDefault();
+
+                        alert(
+                            "Please select complete start and end time."
+                        );
+
+                        return;
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        calculateTotal();
+
+        updatePaymentStatus();
+
+    });
+
+</script>
+
+{% endblock %}

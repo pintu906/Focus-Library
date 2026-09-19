@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+
+{% block title %}Pay / Renew{% endblock %}
+
+{% block content %}
+
+<div class="create-box" style="color:#000;">
+
+
+    <h2 style="color:#000;">
+        <i class="fa-solid fa-money-bill"></i>
+        Pay / Renew
+    </h2>
+
+
+    <!-- =========================
+     STUDENT INFORMATION
+========================== -->
+
+    <div style="
+    background:#f8f9fa;
+    color:#000;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:20px;
+">
+
+        <p style="color:#000;">
+            <strong>Name:</strong>
+            {{ student.name }}
+        </p>
+
+        <p style="color:#000;">
+            <strong>Registration No.:</strong>
+            {{ student.reg_no or '-' }}
+        </p>
+
+        <p style="color:#000;">
+            <strong>Phone:</strong>
+            {{ student.phone or '-' }}
+        </p>
+
+        <p style="color:#000;">
+            <strong>Current Expiry:</strong>
+
+            {% if student.membership_end %}
+
+            {{ student.membership_end.strftime('%d-%m-%Y') }}
+
+            {% else %}
+
+            -
+
+            {% endif %}
+
+        </p>
+
+        <p style="color:#000;">
+            <strong>Old Due:</strong>
+
+            ₹{{ "%.2f"|format(student.due_amount or 0) }}
+
+        </p>
+        <p style="color:#000;">
+            <strong>Shift Time:</strong>
+            {{ student.shift_time or "Not Set" }}
+        </p>
+        <p style="color:#000;">
+    <strong>Duration:</strong>
+    {{ student.duration_hours or 0 }} Hours
+</p>
+    </div>
+
+
+    <!-- =========================
+     PAYMENT FORM
+========================== -->
+
+    <form method="POST" action="{{ url_for(
+        'edit_payment',
+        student_id=student.id
+    ) }}" id="paymentForm">
+
+
+        <!-- MEMBERSHIP -->
+
+        <div class="form-group">
+
+            <label style="color:wheat;">
+                New Membership Payment (₹)
+            </label>
+
+            <input type="number" name="membership_payment" id="membership_payment" class="form-control" min="0"
+                step="0.01" value="0" placeholder="Enter membership amount">
+
+        </div>
+
+
+        <br>
+
+
+        <!-- LOCKER -->
+
+        <div class="form-group">
+
+            <label style="color:wheat;">
+                Locker Payment (₹)
+            </label>
+
+            <input type="number" name="locker_payment" id="locker_payment" class="form-control" min="0" step="0.01"
+                value="0" placeholder="Enter locker payment">
+
+        </div>
+
+
+        <br>
+
+
+        <!-- OLD DUE -->
+
+        <div style="
+            padding:12px;
+            background:#fff3cd;
+            border-radius:8px;
+            margin-bottom:15px;
+            color:#000;
+        ">
+
+            Old Due:
+
+            <strong>
+                ₹<span id="old_due">
+                    {{ "%.2f"|format(student.due_amount or 0) }}
+                </span>
+            </strong>
+
+        </div>
+
+
+        <!-- TOTAL PAYABLE -->
+
+        <div style="
+            padding:12px;
+            background:#e9ecef;
+            border-radius:8px;
+            margin-bottom:15px;
+            color:#000;
+        ">
+
+            Total Payable:
+
+            <strong>
+                ₹<span id="total_payable">
+                    {{ "%.2f"|format(student.due_amount or 0) }}
+                </span>
+            </strong>
+
+        </div>
+
+
+        <!-- PAID NOW -->
+
+        <div class="form-group">
+
+            <label style="color:wheat;">
+                Amount Paid Now (₹)
+            </label>
+
+            <input type="number" name="paid_amount" id="paid_amount" class="form-control" min="0" step="0.01" value="0"
+                required>
+
+        </div>
+
+
+        <br>
+
+
+        <!-- REMAINING DUE -->
+
+        <div style="
+            padding:12px;
+            background:#f8d7da;
+            border-radius:8px;
+            margin-bottom:20px;
+            color:#000;
+        ">
+
+            Remaining Due:
+
+            <strong>
+                ₹<span id="remaining_due">
+                    {{ "%.2f"|format(student.due_amount or 0) }}
+                </span>
+            </strong>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button type="submit" class="btn btn-success">
+
+            <i class="fa-solid fa-check"></i>
+            Save Payment & Renew
+
+        </button>
+
+
+        <a href="{{ url_for('payment') }}" class="btn btn-secondary">
+            Cancel
+        </a>
+
+    </form>
+
+
+</div>
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const membership =
+                document.getElementById(
+                    "membership_payment"
+                );
+
+            const locker =
+                document.getElementById(
+                    "locker_payment"
+                );
+
+            const paid =
+                document.getElementById(
+                    "paid_amount"
+                );
+
+            const totalPayable =
+                document.getElementById(
+                    "total_payable"
+                );
+
+            const remainingDue =
+                document.getElementById(
+                    "remaining_due"
+                );
+
+
+            const oldDue =
+                parseFloat(
+                    document.getElementById(
+                        "old_due"
+                    ).textContent
+                ) || 0;
+
+
+            function calculate() {
+
+                const membershipAmount =
+                    parseFloat(
+                        membership.value
+                    ) || 0;
+
+
+                const lockerAmount =
+                    parseFloat(
+                        locker.value
+                    ) || 0;
+
+
+                /*
+                 * Old Due + New Charges
+                 */
+
+                const total =
+                    oldDue
+                    + membershipAmount
+                    + lockerAmount;
+
+
+                totalPayable.textContent =
+                    total.toFixed(2);
+
+
+                let paidAmount =
+                    parseFloat(
+                        paid.value
+                    ) || 0;
+
+
+                /*
+                 * Payment cannot exceed payable amount
+                 */
+
+                if (
+                    paidAmount > total
+                ) {
+
+                    paidAmount = total;
+
+                    paid.value =
+                        total.toFixed(2);
+
+                }
+
+
+                if (
+                    paidAmount < 0
+                ) {
+
+                    paidAmount = 0;
+
+                    paid.value = "0";
+
+                }
+
+
+                const due =
+                    total - paidAmount;
+
+
+                remainingDue.textContent =
+                    due.toFixed(2);
+
+            }
+
+
+            membership.addEventListener(
+                "input",
+                calculate
+            );
+
+
+            locker.addEventListener(
+                "input",
+                calculate
+            );
+
+
+            paid.addEventListener(
+                "input",
+                calculate
+            );
+
+
+            calculate();
+
+        }
+    );
+
+</script>
+
+{% endblock %}

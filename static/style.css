@@ -1,0 +1,841 @@
+
+*{margin: 0;
+    padding: 0;
+}
+/* Navbar */
+.navbar-brand {
+    font-weight: 700;
+}
+
+
+
+.nav-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+     
+}
+
+/* Main container */
+.main-dash {
+    background-color: black;
+    color: white;
+    min-height: 100vh;
+
+}
+
+/* Flex layout */
+.main-content {
+    min-height: 90vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Left section */
+.left-main {
+    width: 50%;
+    
+    margin-top: 10px;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.left-main h1 {
+    font-weight: 700;
+}
+
+.left-main p {
+    margin-top: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+/* Buttons */
+.btn-group {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;   /* gap between buttons */
+}
+
+.btn-group button {
+    color: white;
+    width: 250px;
+}
+
+/* Right section */
+.right-main {
+    margin-top: 10px;
+    width: 50%;
+     
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Image */
+.right-img {
+    margin-top: 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.right-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* 🔥 RESPONSIVE PART */
+
+/* Tablet */
+@media (max-width: 992px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .left-main,
+    .right-main {
+        width: 100%;
+    }
+
+    .btn-group {
+        justify-content: center;
+    }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+    .left-main {
+        padding: 20px;
+    }
+
+    .left-main h1 {
+        font-size: 24px;
+    }
+
+    .left-main p {
+        font-size: 14px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-group button {
+        width: 100%;
+    }
+}
+
+.blog-dash {
+    margin-top: 40px;
+    min-height: 100vh;
+}
+.col-md-8{
+    background-color: dark;
+    color:white;
+}
+.card-body h5{
+    font-weight: 700;
+}
+.footer {
+    height: 20vh;
+    background: rgb(37, 35, 35);
+    padding: 20px;
+}
+
+.icon-box {
+    display: flex;
+    justify-content: center;   /* center me lana */
+    gap: 40px;  
+    margin-top: 30px;               /* icons ke beech gap */
+}
+
+.icon-box span {
+    display: flex;
+    flex-direction: column;    /* icon upar, label niche */
+    align-items: center;       /* center align */
+    color: white;
+}
+
+.icon-box i {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.icon-box label {
+    font-size: 14px;
+}
+
+
+/* admin-dashboard */
+
+.admin-dash{
+    height: 100vh;
+    width: 100%;
+    background-color: black;
+}
+
+.admin-logout{
+    display: flex;
+    color: white;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.admin-logout p{
+    margin-top: 10px;
+}
+
+.admin-main{
+    display: flex;
+    height: 90vh;
+}
+.line{
+    width: 100%;
+    background-color: white;
+    height: 2px;
+}
+
+/* LEFT SIDEBAR */
+.left-admin{
+    width: 240px;   /* fixed sidebar */
+    background: #222;
+    
+}
+
+/* MENU */
+.admin-menu{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+     margin-top: 20px;
+}
+
+.admin-menu li{
+    width: 100%;
+    padding: 12px;
+   
+    margin-bottom: 10px;
+    background: #333;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+   
+    font-weight: 500;
+    
+    font-size: 20px;
+}
+.admin-menu li h4{
+     display: flex;
+     gap: 10px;
+    font-size: 18px;
+    text-align: center;
+}
+
+.admin-menu li:hover{
+    background: white;
+    color: black;
+    box-shadow: 0 2px 4px 0;
+}
+
+/* RIGHT SIDE */
+.right-admin{
+    flex: 1;   /* remaining space */
+    padding: 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.create-box{
+    width: 100%;
+   
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.up-right{
+    width: 100%;
+    height: 140px;
+    border: 1px solid wheat;
+    display: flex;
+    justify-content: space-between;
+ padding: 20px;
+    border-radius: 20px;
+    align-items: center;
+}
+.admin-box{
+    border: 1px solid wheat;
+    height: 100px;
+    width: 170px;
+    border-radius: 8px;
+    display: flex;
+     padding: 15px;
+     gap: 20px;
+}
+.admin-box div i {
+    font-size: 35px;
+    margin-top: 10px;
+}
+
+.view-all,Page{
+    color: blue;
+    text-decoration: none;
+    text-align: end;
+    margin-right: 30px;
+    cursor:pointer
+}
+
+.admin-table tr{
+ cursor: pointer;
+}
+
+
+.trek_heading{
+    height: 50px;
+    display: flex;
+    
+    justify-content: space-between;
+    
+}
+.trek_heading button{
+    text-decoration: none;
+    border: none;
+    font-weight: 700;
+    margin-right: 18px;
+}
+.search-box input{
+    background: transparent;
+    padding: 10px;
+    margin-top: 10px;
+}
+.search-box input::placeholder {
+    color: white;
+    opacity: 0.7;
+}
+.action-box{
+    display: flex;
+    font-size: 25px;
+    justify-content: space-around;
+}
+
+.pagination .page-link {
+    background: transparent;
+    color: white;          /* text white */
+    border: 1px solid white;
+}
+
+.pagination .page-item.active .page-link {
+    background: white;     /* active page highlight */
+    color: black;
+}
+
+.pagination .page-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+.add-trek-form{
+    padding: 15px;
+    border: 1px solid wheat;
+    border-radius: 8px;
+}
+
+.add-submit{
+    display: flex; 
+    gap: 20px;
+    align-items: center
+}
+.add-submit button{
+    align-items: end;
+}
+
+
+.admin-staff-status{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    margin-top: 10px;
+}
+.admin-staff-status div{
+    height: 40px;
+    display: flex;
+    width: 120px;
+ border: 1px solid wheat;
+ align-items: center;
+ justify-content: center;
+ border-radius: 25px;
+}
+.admin-staff-status div button{
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+
+.custom-select {
+    background-color: transparent !important;
+    color: #fff; /* text white */
+    border: 1px solid #ccc;
+}
+
+.custom-select:focus {
+    background-color: transparent !important;
+    color: #fff;
+    box-shadow: none;
+}
+
+/* Arrow color fix (dark background ke liye) */
+.custom-select {
+    filter: invert(1); 
+}
+
+.custom-input {
+    background-color: transparent !important;
+    color: #fff; /* text white */
+    border: 1px solid #ccc;
+}
+
+.custom-input::placeholder {
+    color:wheat; /* placeholder halka grey */
+}
+
+.custom-input:focus {
+    background-color: transparent !important;
+    color: #fff;
+    box-shadow: none;
+    border-color: #aaa;
+}
+
+
+.custom-search {
+    background-color: transparent !important;
+    color: white !important;
+    border: 1px solid white;
+}
+
+/* Placeholder color */
+.custom-search::placeholder {
+    color: #ccc;
+}
+
+/* Focus pe bhi white hi rahe */
+.custom-search:focus {
+    background-color: transparent !important;
+    color: white !important;
+    border-color: white;
+    box-shadow: none;   /* blue glow hata dega */
+}
+
+/* Autofill fix (chrome ke liye) */
+.custom-search:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+
+/* =====================================
+   FOCUS LIBRARY - ADMIN DASHBOARD FIX
+   ===================================== */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000 !important;
+    color: white;
+}
+
+/* Main admin wrapper */
+.admin-dash {
+    min-height: 100vh !important;
+    height: auto !important;
+    width: 100%;
+    background-color: #000 !important;
+}
+
+/* Navbar */
+.admin-dash .navbar {
+    min-height: 70px;
+}
+
+/* Main layout */
+.admin-main {
+    display: flex !important;
+    min-height: calc(100vh - 72px) !important;
+    height: auto !important;
+    background-color: #000 !important;
+}
+
+/* Sidebar */
+.left-admin {
+    width: 265px !important;
+    min-width: 265px;
+    min-height: calc(100vh - 72px);
+    background-color: #222 !important;
+}
+
+/* Sidebar menu */
+.admin-menu {
+    margin-top: 20px;
+    padding: 0;
+}
+
+.admin-menu li {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 12px;
+    margin-bottom: 10px;
+    background-color: #333;
+    border-radius: 0 12px 12px 0;
+}
+
+/* Sidebar links */
+.admin-menu li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.admin-menu li h4 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+}
+
+/* Sidebar hover */
+.admin-menu li:hover {
+    background-color: #444;
+}
+
+.admin-menu li:hover a {
+    color: white;
+}
+
+
+/* =====================================
+   RIGHT SIDE
+   ===================================== */
+
+.right-admin {
+    flex: 1;
+    min-width: 0;
+    padding: 30px !important;
+
+    color: white;
+
+    display: block !important;
+
+    background-color: #000 !important;
+
+    box-sizing: border-box;
+}
+
+
+/* Dashboard content */
+.create-box {
+    width: 100%;
+    height: auto !important;
+    min-height: auto !important;
+
+    display: block !important;
+}
+
+
+/* =====================================
+   DASHBOARD CARDS
+   ===================================== */
+
+.up-right {
+    width: 100%;
+    height: auto !important;
+
+    box-sizing: border-box;
+
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+
+    padding: 20px;
+
+    border: 1px solid wheat;
+    border-radius: 20px;
+
+    background-color: #000;
+}
+
+
+/* Individual card */
+.admin-box {
+    width: auto !important;
+    min-width: 0;
+
+    height: 110px !important;
+
+    box-sizing: border-box;
+
+    border: 1px solid wheat;
+    border-radius: 10px;
+
+    padding: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    background-color: #050505;
+}
+
+
+/* Card text */
+.admin-box h6 {
+    margin: 0 0 8px 0;
+    color: white;
+}
+
+.admin-box h6:last-child {
+    font-size: 28px;
+}
+
+
+/* Card icons */
+.admin-box div i {
+    font-size: 35px;
+    margin-top: 0;
+    color: white;
+}
+
+
+/* =====================================
+   TABLE
+   ===================================== */
+
+.admin-table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.admin-table th,
+.admin-table td {
+    vertical-align: middle;
+}
+
+
+/* =====================================
+   DASHBOARD HEADINGS
+   ===================================== */
+
+.create-box h2 {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.create-box h3 {
+    color: white;
+}
+
+
+/* =====================================
+   REMOVE EXTRA DASHBOARD LOGOUT
+   ===================================== */
+
+/* Dashboard ka logout agar kisi div me hai */
+.dashboard-logout {
+    display: none;
+}
+
+
+/* =====================================
+   RESPONSIVE
+   ===================================== */
+
+@media (max-width: 1100px) {
+
+    .up-right {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .admin-main {
+        display: block !important;
+    }
+
+    .left-admin {
+        width: 100% !important;
+        min-width: 100%;
+        min-height: auto;
+    }
+
+    .right-admin {
+        padding: 20px !important;
+    }
+
+    .up-right {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* Add Student Form - White Text */
+
+.add-trek-form label {
+    color: white;
+}
+
+.add-trek-form input,
+.add-trek-form select,
+.add-trek-form textarea {
+    color: white !important;
+    background-color: transparent !important;
+    border: 1px solid #ccc;
+}
+
+/* Placeholder */
+.add-trek-form input::placeholder,
+.add-trek-form textarea::placeholder {
+    color: #ccc;
+}
+
+/* Select option */
+.add-trek-form select option {
+    color: black;
+    background-color: white;
+}
+
+/* Date input calendar text */
+.add-trek-form input[type="date"] {
+    color: white !important;
+}
+
+/* Heading */
+.add-trek-form h2,
+.create-box h2 {
+    color: white;
+}
+
+
+/* Search Box */
+.custom-search {
+    background-color: transparent !important;
+    color: white !important;
+    border: 1px solid white;
+}
+
+/* Search box ke andar likha hua text */
+.custom-search {
+    color: white !important;
+}
+
+/* Placeholder */
+.custom-search::placeholder {
+    color: white !important;
+    opacity: 0.7;
+}
+
+/* Click/focus karne par */
+.custom-search:focus {
+    background-color: transparent !important;
+    color: white !important;
+    border-color: white;
+    box-shadow: none;
+}
+
+/* Chrome autofill */
+.custom-search:-webkit-autofill {
+    -webkit-text-fill-color: white !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.custom-select {
+    color: white !important;
+}
+
+.custom-select::placeholder {
+    color: white !important;
+    opacity: 0.8;
+}
+
+.seat {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: auto;
+
+    font-weight: bold;
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.seat-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 12px;
+    padding: 20px;
+}
+
+.custom-select {
+    color: white;
+    background-color: #212529;
+}
+
+.custom-select option {
+    color: white;
+    background-color: #212529;
+}
+
+.custom-select {
+    color: white;
+    background-color: #212529;
+}
+
+.custom-select option {
+    color: white;
+    background-color: #212529;
+}
+
+.form-label {
+    color: white;
+}
+
+/* ==============================
+   ADD STUDENT - SELECT FIX
+================================ */
+
+select.custom-select,
+select.form-select.custom-select {
+    color: #ffffff !important;
+    background-color: #212529 !important;
+    border-color: #ffffff !important;
+}
+
+select.custom-select option,
+select.form-select.custom-select option {
+    color: #ffffff !important;
+    background-color: #212529 !important;
+}
+
+/* Dropdown selected value */
+#payment_status {
+    color: white !important;
+    background-color: #212529 !important;
+}

@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Check-In{% endblock %}
+
+{% block content %}
+
+<div class="create-box">
+
+```
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Student Check-In
+    </h2>
+
+    <a href="{{ url_for('seat_tracking') }}"
+       class="btn btn-secondary">
+
+        <i class="fa-solid fa-chair"></i>
+        Seat Tracking
+
+    </a>
+
+</div>
+
+
+<form method="POST">
+
+
+    <!-- STUDENT -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Select Student
+        </label>
+
+        <select
+            name="student_id"
+            class="form-select custom-select"
+            required
+        >
+
+            <option value="">
+                Select Student
+            </option>
+
+            {% for student in students %}
+
+            <option value="{{ student.id }}">
+
+                {{ student.name }} - {{ student.reg_no }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+
+    <!-- SEAT -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Select Seat
+        </label>
+
+        <select
+            name="seat_id"
+            class="form-select custom-select"
+            required
+        >
+
+            <option value="">
+                Select Seat
+            </option>
+
+            {% for seat in seats %}
+
+            <option value="{{ seat.id }}">
+
+                Seat {{ seat.seat_no }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+
+    <!-- DURATION -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Duration
+        </label>
+
+        <select
+            name="duration_hours"
+            id="duration_hours"
+            class="form-select custom-select"
+            required
+        >
+
+            <option value="">
+                Select Duration
+            </option>
+
+            <option value="2">
+                2 Hours
+            </option>
+
+            <option value="4">
+                4 Hours
+            </option>
+
+            <option value="6">
+                6 Hours
+            </option>
+
+            <option value="8">
+                8 Hours
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- ARRIVAL TIME -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Arrival Time
+        </label>
+
+        <input
+            type="text"
+            id="start_time"
+            class="form-control custom-input"
+            readonly
+        >
+
+    </div>
+
+
+    <!-- EXPECTED EXIT TIME -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Expected Exit Time
+        </label>
+
+        <input
+            type="text"
+            id="end_time"
+            class="form-control custom-input"
+            readonly
+        >
+
+    </div>
+
+
+    <!-- PAYMENT -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Payment (₹)
+        </label>
+
+        <input
+            type="number"
+            name="payment"
+            class="form-control custom-input"
+            placeholder="Enter payment amount"
+            min="0"
+            step="0.01"
+            value="0"
+            required
+        >
+
+    </div>
+
+
+    <!-- PAYMENT STATUS -->
+
+    <div class="mb-3">
+
+        <label class="form-label">
+            Payment Status
+        </label>
+
+        <select
+            name="payment_status"
+            class="form-select custom-select"
+            required
+        >
+
+            <option value="Paid">
+                Paid
+            </option>
+
+            <option value="Pending">
+                Pending
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- BUTTONS -->
+
+    <div class="add-submit">
+
+        <button
+            type="submit"
+            class="btn btn-success"
+        >
+
+            <i class="fa-solid fa-right-to-bracket"></i>
+
+            Check-In
+
+        </button>
+
+
+        <a
+            href="{{ url_for('seat_tracking') }}"
+            class="btn btn-secondary"
+        >
+
+            Cancel
+
+        </a>
+
+    </div>
+
+</form>
+```
+
+</div>
+
+<script>
+
+    // Current time
+    let currentTime = new Date();
+
+
+    // Format time
+    function formatTime(date) {
+
+        let hours = date.getHours();
+
+        let minutes = String(
+            date.getMinutes()
+        ).padStart(2, "0");
+
+        let ampm = hours >= 12 ? "PM" : "AM";
+
+        hours = hours % 12;
+
+        hours = hours || 12;
+
+        return `${hours}:${minutes} ${ampm}`;
+
+    }
+
+
+    // Show arrival time
+    document.getElementById("start_time").value =
+        formatTime(currentTime);
+
+
+    // Duration change
+    document
+        .getElementById("duration_hours")
+        .addEventListener("change", function () {
+
+            let duration = parseInt(this.value);
+
+            let endTimeInput =
+                document.getElementById("end_time");
+
+
+            if (!duration) {
+
+                endTimeInput.value = "";
+
+                return;
+
+            }
+
+
+            let endTime =
+                new Date(currentTime);
+
+
+            endTime.setHours(
+                endTime.getHours() + duration
+            );
+
+
+            endTimeInput.value =
+                formatTime(endTime);
+
+        });
+
+</script>
+
+{% endblock %}

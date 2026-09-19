@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Trekking Management Application</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid nav-box">
+            <a class="navbar-brand" href="#">Focus Library</a>
+
+            <!-- Button to open modal -->
+            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#resumemodal">
+                Admin Login
+            </button>
+        </div>
+    </nav>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resumemodal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Admin Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form action="/admin_login" method="POST">
+                        <div class="mb-3">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control">
+                        </div>
+
+                        <button class="btn btn-success w-100">Login</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="main-dash">
+        <div class="main-content">
+            <div class="left-main">
+                <h1> Focus Library</h1>
+                <div class="login-page">
+                    <p>
+                        Focus Library is a peaceful and student-friendly study space designed to help students
+                        concentrate on their studies and achieve their academic goals.
+
+                        Our library provides a quiet, comfortable, and disciplined environment where students can study
+                        without distractions. We offer a well-maintained study area, comfortable seating, proper
+                        lighting, and a positive atmosphere for focused learning.
+
+                        At Focus Library, our goal is to create a place where students can focus, learn, grow, and
+                        succeed.
+                    </p>
+                    <div class="btn-group">
+                        <!-- Register Button -->
+                        <button class="btn btn-success" type="button" data-bs-toggle="modal"
+                            data-bs-target="#resumemodal">
+                            Admin Login
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="resumemodal" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered ">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Admin Login</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <form action="/admin_login" method="POST">
+                                            <div class="mb-3">
+                                                <label>Email</label>
+                                                <input type="email" name="email" class="form-control">
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label>Password</label>
+                                                <input type="password" name="password" class="form-control">
+                                            </div>
+
+                                            <button class="btn btn-success w-100">Login</button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Staff Login Modal (OUTSIDE) -->
+
+                        <!-- REGISTER BUTTON -->
+                        <button type="button" class="btn btn-lg btn-info" data-bs-toggle="modal"
+                            data-bs-target="#registerUserModal">
+                            Register Student
+                        </button>
+                        <!-- ==============================
+     STUDENT LOGIN MODAL
+================================ -->
+
+                        <div class="modal fade" id="registerUserModal" tabindex="-1" aria-hidden="true">
+
+                            <div class="modal-dialog modal-dialog-centered">
+
+                                <div class="modal-content">
+
+                                    <form method="POST" action="{{ url_for('student_login') }}">
+
+                                        <div class="modal-header">
+
+                                            <h5 class="modal-title">
+                                                <i class="fa-solid fa-user-graduate"></i>
+                                                Student Login
+                                            </h5>
+
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                                        </div>
+
+
+                                        <div class="modal-body">
+
+                                            <div class="mb-3">
+
+                                                <label class="form-label">
+                                                    Student Email
+                                                </label>
+
+                                                <input type="email" name="email" class="form-control"
+                                                    placeholder="Enter your email" required>
+
+                                            </div>
+
+
+                                            <div class="mb-3">
+
+                                                <label class="form-label">
+                                                    Registration No.
+                                                </label>
+
+                                                <input type="text" name="reg_no" class="form-control"
+                                                    placeholder="Enter registration number" required>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="modal-footer">
+
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Cancel
+                                            </button>
+
+                                            <button type="submit" class="btn btn-info">
+                                                <i class="fa-solid fa-right-to-bracket"></i>
+                                                Login
+                                            </button>
+
+                                        </div>
+
+                                    </form>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="right-main">
+
+                <div class="right-img">
+                    <img src="{{ url_for('static', filename='assets/img.png') }}" alt="Right Image">
+                </div>
+            </div>
+        </div>
+        <div class="blog-dash container">
+
+            <!-- Card 1 (Normal - Image Left) -->
+            <div class="card mb-3 bg-black text-white" style="max-width: 900px;">
+                <div class="row g-0 align-items-center">
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='assets/img3.png') }}"
+                            class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Clean Dashboard</h5>
+                            <p class="card-text">A clean dashboard is essential for effective data visualization and user experience. It provides a clear overview of key metrics and information, making it easier for users to make informed decisions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 (Reverse - Image Right) -->
+            <div class="card mb-3 bg-black text-white" style="max-width: 900px; margin-left: 350px;">
+                <div class="row g-0 align-items-center flex-row-reverse">
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='assets/img2.png') }}"
+                            class="img-fluid rounded-end h-100" style="object-fit: cover;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Books</h5>
+                            <p class="card-text">A collection of books is a great way to expand your knowledge and imagination. Whether you prefer fiction or non-fiction, there's always something new to discover.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 (Normal) -->
+            <div class="card mb-3 bg-black text-white" style="max-width: 900px;">
+                <div class="row g-0 align-items-center">
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='assets/img.jpg') }}"
+                            class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Owner</h5>
+                            <p class="card-text">The owner of the property is responsible for its maintenance and management.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3 bg-black text-white" style="max-width: 900px; margin-left: 350px;">
+                <div class="row g-0 align-items-center flex-row-reverse">
+                    <div class="col-md-4">
+                        <img src="{{ url_for('static', filename='assets/tution.avif') }}"
+                            class="img-fluid rounded-end h-100" style="object-fit: cover;">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Tution Classes</h5>
+                            <p class="card-text">Tution classes are private or group lessons provided by tutors to students for academic support and improvement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
+
+        </div>
+        <footer class="footer">
+            <div class="icon-box">
+                <span><i class="fa-brands fa-chrome"></i>
+                    <label>Chorme</label></span>
+                <span> <i class="fa-brands fa-youtube"></i>
+                    <label>You Tube</label></span>
+                <span>
+                    <i class="fa-brands fa-facebook"></i>
+                    <label>Facebook</label>
+                </span>
+                <span>
+                    <i class="fa-brands fa-linkedin"></i>
+                    <label>Linkedin</label>
+                </span>
+
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

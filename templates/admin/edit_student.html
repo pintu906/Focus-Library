@@ -1,0 +1,1142 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Edit Student{% endblock %}
+
+{% block content %}
+
+<div class="create-box">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <div class="trek_heading">
+
+        <h2>
+            <i class="fa-solid fa-user-pen"></i>
+            Edit Student
+        </h2>
+
+        <a href="{{ url_for('admin_students') }}"
+           class="btn btn-secondary">
+
+            <i class="fa-solid fa-arrow-left"></i>
+            Back
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         FORM
+    ========================== -->
+
+    <form method="POST"
+          action="{{ url_for('edit_student', id=student.id) }}"
+          class="add-trek-form">
+
+        <div class="row g-3">
+
+
+            <!-- =========================
+                 STUDENT NAME
+                 DISPLAY ONLY
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Student Name
+                </label>
+
+                <input type="text"
+                       class="form-control custom-input"
+                       value="{{ student.name }}"
+                       readonly>
+
+            </div>
+
+
+            <!-- =========================
+                 REGISTRATION NO.
+                 DISPLAY ONLY
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Registration No.
+                </label>
+
+                <input type="text"
+                       class="form-control custom-input"
+                       value="{{ student.reg_no }}"
+                       readonly>
+
+            </div>
+
+
+            <!-- =========================
+                 EMAIL
+                 DISPLAY ONLY
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Email
+                </label>
+
+                <input type="email"
+                       class="form-control custom-input"
+                       value="{{ student.email or '' }}"
+                       readonly>
+
+            </div>
+
+
+            <!-- =========================
+                 PHONE
+                 DISPLAY ONLY
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Phone
+                </label>
+
+                <input type="text"
+                       class="form-control custom-input"
+                       value="{{ student.phone or '' }}"
+                       readonly>
+
+            </div>
+
+
+            <!-- =========================
+                 SEAT NO.
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    <i class="fa-solid fa-chair"></i>
+                    Seat No.
+
+                </label>
+
+                <input type="text"
+                       name="seat_no"
+                       class="form-control custom-input"
+                       value="{{ student.seat_no or '' }}"
+                       placeholder="Example: A-01">
+
+            </div>
+
+
+            <!-- =========================
+                 LOCKER NO.
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+
+                    <i class="fa-solid fa-box"></i>
+                    Locker No.
+
+                </label>
+
+                <input type="text"
+                       name="locker_no"
+                       class="form-control custom-input"
+                       value="{{ student.locker_no or '' }}"
+                       placeholder="Example: L-01">
+
+            </div>
+
+
+            <!-- =========================
+                 SLOT TIME
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label slot-label">
+
+                    <i class="fa-solid fa-clock"></i>
+                    Slot Time
+
+                </label>
+
+
+                <div class="row g-2 align-items-end">
+
+
+                    <!-- START HOUR -->
+
+                    <div class="col-3">
+
+                        <label class="form-label small">
+                            Start
+                        </label>
+
+                        <select id="start_hour"
+                                class="form-select slot-time-input">
+
+                            <option value="">
+                                Hour
+                            </option>
+
+                            {% for hour in range(1, 13) %}
+
+                            <option value="{{ hour }}">
+                                {{ hour }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- START AM / PM -->
+
+                    <div class="col-3">
+
+                        <label class="form-label small">
+                            &nbsp;
+                        </label>
+
+                        <select id="start_period"
+                                class="form-select slot-time-input">
+
+                            <option value="">
+                                AM/PM
+                            </option>
+
+                            <option value="AM">
+                                AM
+                            </option>
+
+                            <option value="PM">
+                                PM
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- DASH -->
+
+                    <div class="col-1 text-center">
+
+                        <label class="form-label small">
+                            &nbsp;
+                        </label>
+
+                        <div class="text-white fs-5">
+                            -
+                        </div>
+
+                    </div>
+
+
+                    <!-- END HOUR -->
+
+                    <div class="col-3">
+
+                        <label class="form-label small">
+                            End
+                        </label>
+
+                        <select id="end_hour"
+                                class="form-select slot-time-input">
+
+                            <option value="">
+                                Hour
+                            </option>
+
+                            {% for hour in range(1, 13) %}
+
+                            <option value="{{ hour }}">
+                                {{ hour }}
+                            </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- END AM / PM -->
+
+                    <div class="col-2">
+
+                        <label class="form-label small">
+                            &nbsp;
+                        </label>
+
+                        <select id="end_period"
+                                class="form-select slot-time-input">
+
+                            <option value="">
+                                AM/PM
+                            </option>
+
+                            <option value="AM">
+                                AM
+                            </option>
+
+                            <option value="PM">
+                                PM
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================
+                     DURATION
+                ========================== -->
+
+                <div class="mt-3">
+
+                    <label class="form-label">
+
+                        <i class="fa-solid fa-hourglass-half"></i>
+                        Duration
+
+                    </label>
+
+                    <input type="text"
+                           id="duration_display"
+                           class="form-control slot-time-input"
+                           placeholder="Automatically calculated"
+                           readonly>
+
+                </div>
+
+
+                <!-- =========================
+                     HIDDEN VALUES
+                ========================== -->
+
+                <input type="hidden"
+                       name="shift_time"
+                       id="shift_time"
+                       value="{{ student.shift_time or '' }}">
+
+                <input type="hidden"
+                       name="duration_hours"
+                       id="duration_hours"
+                       value="{{ student.duration_hours or '' }}">
+
+
+                <small class="slot-help">
+
+                    Existing slot will be shown automatically.
+                    You can change it if required.
+
+                </small>
+
+            </div>
+
+
+            <!-- =========================
+                 MEMBERSHIP START
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Membership Start Date
+                </label>
+
+                <input type="date"
+                       name="membership_start"
+                       id="membership_start"
+                       class="form-control custom-input"
+                       value="{{ student.membership_start.strftime('%Y-%m-%d') if student.membership_start else '' }}"
+                       required>
+
+            </div>
+
+
+            <!-- =========================
+                 MEMBERSHIP END
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Membership Expiry Date
+                </label>
+
+                <input type="date"
+                       name="membership_end"
+                       id="membership_end"
+                       class="form-control custom-input"
+                       value="{{ student.membership_end.strftime('%Y-%m-%d') if student.membership_end else '' }}"
+                       readonly>
+
+            </div>
+
+
+            <!-- =========================
+                 TOTAL AMOUNT
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Total Amount (₹)
+                </label>
+
+                <input type="number"
+                       id="total_amount"
+                       class="form-control custom-input"
+                       value="{{ '%.2f'|format(student.total_amount or 0) }}"
+                       readonly>
+
+                <small class="text-muted">
+                    Membership + Locker
+                </small>
+
+            </div>
+
+
+            <!-- =========================
+                 ALREADY PAID
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Already Paid (₹)
+                </label>
+
+                <input type="number"
+                       id="old_paid_amount"
+                       class="form-control custom-input"
+                       value="{{ '%.2f'|format(student.paid_amount or 0) }}"
+                       readonly>
+
+            </div>
+
+
+            <!-- =========================
+                 NEW PAYMENT
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    New Payment (₹)
+                </label>
+
+                <input type="number"
+                       name="new_payment"
+                       id="new_payment"
+                       class="form-control custom-input"
+                       placeholder="Enter payment received"
+                       min="0"
+                       step="0.01"
+                       value="0">
+
+                <small class="text-muted">
+
+                    Enter only the amount received now.
+
+                </small>
+
+            </div>
+
+
+            <!-- =========================
+                 REMAINING DUE
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Remaining Due (₹)
+                </label>
+
+                <input type="number"
+                       id="remaining_due"
+                       class="form-control custom-input"
+                       value="{{ '%.2f'|format(student.due_amount or 0) }}"
+                       readonly>
+
+            </div>
+
+
+            <!-- =========================
+                 PAYMENT STATUS
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Payment Status
+                </label>
+
+                <input type="text"
+                       id="payment_status_display"
+                       class="form-control custom-input"
+                       value="{{ student.payment_status or 'Paid' }}"
+                       readonly>
+
+                <input type="hidden"
+                       name="payment_status"
+                       id="payment_status"
+                       value="{{ student.payment_status or 'Paid' }}">
+
+            </div>
+
+
+            <!-- =========================
+                 STATUS
+            ========================== -->
+
+            <div class="col-md-6">
+
+                <label class="form-label">
+                    Student Status
+                </label>
+
+                <select name="status"
+                        class="form-select custom-select">
+
+                    <option value="Active"
+                        {% if student.status == "Active" %}
+                            selected
+                        {% endif %}>
+                        Active
+                    </option>
+
+                    <option value="Inactive"
+                        {% if student.status == "Inactive" %}
+                            selected
+                        {% endif %}>
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             BUTTONS
+        ========================== -->
+
+        <div class="add-submit mt-4">
+
+            <button type="submit"
+                    class="btn btn-success">
+
+                <i class="fa-solid fa-save"></i>
+                Update Student
+
+            </button>
+
+
+            <a href="{{ url_for('admin_students') }}"
+               class="btn btn-secondary">
+
+                Cancel
+
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+
+    /* =================================================
+       ELEMENTS
+    ================================================= */
+
+    const startHour =
+        document.getElementById("start_hour");
+
+    const startPeriod =
+        document.getElementById("start_period");
+
+    const endHour =
+        document.getElementById("end_hour");
+
+    const endPeriod =
+        document.getElementById("end_period");
+
+    const shiftTime =
+        document.getElementById("shift_time");
+
+    const durationDisplay =
+        document.getElementById("duration_display");
+
+    const durationHours =
+        document.getElementById("duration_hours");
+
+
+    const membershipStart =
+        document.getElementById("membership_start");
+
+    const membershipEnd =
+        document.getElementById("membership_end");
+
+
+    const totalAmount =
+        document.getElementById("total_amount");
+
+    const oldPaid =
+        document.getElementById("old_paid_amount");
+
+    const newPayment =
+        document.getElementById("new_payment");
+
+    const remainingDue =
+        document.getElementById("remaining_due");
+
+    const paymentStatus =
+        document.getElementById("payment_status");
+
+    const paymentStatusDisplay =
+        document.getElementById(
+            "payment_status_display"
+        );
+
+
+    /* =================================================
+       LOAD EXISTING SLOT
+    ================================================= */
+
+    function loadExistingShift() {
+
+        const value =
+            shiftTime.value.trim();
+
+        if (!value) {
+
+            durationDisplay.value = "";
+
+            return;
+
+        }
+
+
+        /*
+            Example:
+
+            10:00 AM - 4:00 PM
+        */
+
+        const parts =
+            value.split("-");
+
+
+        if (parts.length !== 2) {
+
+            return;
+
+        }
+
+
+        const start =
+            parts[0].trim();
+
+        const end =
+            parts[1].trim();
+
+
+        const startParts =
+            start.split(/\s+/);
+
+        const endParts =
+            end.split(/\s+/);
+
+
+        /* START */
+
+        if (startParts.length >= 2) {
+
+            const hour =
+                parseInt(
+                    startParts[0]
+                        .split(":")[0]
+                );
+
+            const period =
+                startParts[1]
+                    .toUpperCase();
+
+            if (
+                hour >= 1 &&
+                hour <= 12
+            ) {
+
+                startHour.value =
+                    hour;
+
+            }
+
+            if (
+                period === "AM" ||
+                period === "PM"
+            ) {
+
+                startPeriod.value =
+                    period;
+
+            }
+
+        }
+
+
+        /* END */
+
+        if (endParts.length >= 2) {
+
+            const hour =
+                parseInt(
+                    endParts[0]
+                        .split(":")[0]
+                );
+
+            const period =
+                endParts[1]
+                    .toUpperCase();
+
+            if (
+                hour >= 1 &&
+                hour <= 12
+            ) {
+
+                endHour.value =
+                    hour;
+
+            }
+
+            if (
+                period === "AM" ||
+                period === "PM"
+            ) {
+
+                endPeriod.value =
+                    period;
+
+            }
+
+        }
+
+
+        /*
+            Existing duration
+        */
+
+        if (
+            studentDurationExists()
+        ) {
+
+            durationDisplay.value =
+                `${parseFloat(durationHours.value)} Hours`;
+
+        } else {
+
+            calculateSlot();
+
+        }
+
+    }
+
+
+    /* =================================================
+       CHECK EXISTING DURATION
+    ================================================= */
+
+    function studentDurationExists() {
+
+        const value =
+            parseFloat(
+                durationHours.value
+            );
+
+        return (
+            !isNaN(value) &&
+            value > 0
+        );
+
+    }
+
+
+    /* =================================================
+       CONVERT TIME TO MINUTES
+    ================================================= */
+
+    function convertToMinutes(
+        hour,
+        period
+    ) {
+
+        hour =
+            parseInt(hour);
+
+
+        if (period === "AM") {
+
+            if (hour === 12) {
+
+                hour = 0;
+
+            }
+
+        } else {
+
+            if (hour !== 12) {
+
+                hour += 12;
+
+            }
+
+        }
+
+
+        return hour * 60;
+
+    }
+
+
+    /* =================================================
+       CALCULATE SLOT
+    ================================================= */
+
+    function calculateSlot() {
+
+        if (
+            !startHour.value ||
+            !startPeriod.value ||
+            !endHour.value ||
+            !endPeriod.value
+        ) {
+
+            return;
+
+        }
+
+
+        let startMinutes =
+            convertToMinutes(
+                startHour.value,
+                startPeriod.value
+            );
+
+
+        let endMinutes =
+            convertToMinutes(
+                endHour.value,
+                endPeriod.value
+            );
+
+
+        /*
+            If end time is earlier,
+            consider next day.
+        */
+
+        if (
+            endMinutes <=
+            startMinutes
+        ) {
+
+            endMinutes +=
+                24 * 60;
+
+        }
+
+
+        const difference =
+            endMinutes -
+            startMinutes;
+
+
+        const hours =
+            difference / 60;
+
+
+        /* SAVE SLOT */
+
+        shiftTime.value =
+            `${startHour.value}:00 ${startPeriod.value} - ` +
+            `${endHour.value}:00 ${endPeriod.value}`;
+
+
+        /* SAVE DURATION */
+
+        durationHours.value =
+            hours;
+
+
+        durationDisplay.value =
+            `${hours} Hours`;
+
+    }
+
+
+    /* =================================================
+       SLOT EVENTS
+    ================================================= */
+
+    startHour.addEventListener(
+        "change",
+        calculateSlot
+    );
+
+    startPeriod.addEventListener(
+        "change",
+        calculateSlot
+    );
+
+    endHour.addEventListener(
+        "change",
+        calculateSlot
+    );
+
+    endPeriod.addEventListener(
+        "change",
+        calculateSlot
+    );
+
+
+    /* =================================================
+       MEMBERSHIP END DATE
+       +1 MONTH
+    ================================================= */
+
+    membershipStart.addEventListener(
+        "change",
+        function () {
+
+            if (!this.value) {
+
+                membershipEnd.value =
+                    "";
+
+                return;
+
+            }
+
+
+            const date =
+                new Date(
+                    this.value +
+                    "T00:00:00"
+                );
+
+
+            date.setMonth(
+                date.getMonth() + 1
+            );
+
+
+            const year =
+                date.getFullYear();
+
+
+            const month =
+                String(
+                    date.getMonth() + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const day =
+                String(
+                    date.getDate()
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            membershipEnd.value =
+                `${year}-${month}-${day}`;
+
+        }
+    );
+
+
+    /* =================================================
+       PAYMENT CALCULATION
+    ================================================= */
+
+    function calculatePayment() {
+
+        const total =
+            parseFloat(
+                totalAmount.value
+            ) || 0;
+
+
+        const alreadyPaid =
+            parseFloat(
+                oldPaid.value
+            ) || 0;
+
+
+        const payment =
+            parseFloat(
+                newPayment.value
+            ) || 0;
+
+
+        let paid =
+            alreadyPaid + payment;
+
+
+        /*
+            Paid amount cannot
+            exceed total amount.
+        */
+
+        if (
+            paid > total
+        ) {
+
+            paid = total;
+
+        }
+
+
+        const due =
+            Math.max(
+                total - paid,
+                0
+            );
+
+
+        /* SHOW DUE */
+
+        remainingDue.value =
+            due.toFixed(2);
+
+
+        /* STATUS */
+
+        if (due <= 0) {
+
+            paymentStatus.value =
+                "Paid";
+
+            paymentStatusDisplay.value =
+                "Paid";
+
+        } else {
+
+            paymentStatus.value =
+                "Due";
+
+            paymentStatusDisplay.value =
+                "Due";
+
+        }
+
+    }
+
+
+    /* =================================================
+       PAYMENT EVENT
+    ================================================= */
+
+    newPayment.addEventListener(
+        "input",
+        calculatePayment
+    );
+
+
+    /* =================================================
+       FORM SUBMIT
+    ================================================= */
+
+    document
+        .querySelector(
+            ".add-trek-form"
+        )
+        .addEventListener(
+            "submit",
+            function (event) {
+
+
+                /*
+                    Slot is OPTIONAL.
+
+                    If user doesn't change it,
+                    old slot stays unchanged.
+                */
+
+                if (
+                    startHour.value &&
+                    startPeriod.value &&
+                    endHour.value &&
+                    endPeriod.value
+                ) {
+
+                    calculateSlot();
+
+                }
+
+
+                /*
+                    Payment calculation
+                */
+
+                calculatePayment();
+
+
+            }
+        );
+
+
+    /* =================================================
+       INITIAL LOAD
+    ================================================= */
+
+    loadExistingShift();
+
+    calculatePayment();
+
+});
+
+</script>
+
+{% endblock %}
+
