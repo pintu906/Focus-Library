@@ -14,17 +14,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, date, timedelta
 import os
 
-app.secret_key = os.environ.get(
-    "SECRET_KEY",
-    "focus_library_secret_key"
-)
+
 
 # =========================================================
 # APP CONFIGURATION
 # =========================================================
 
 app = Flask(__name__)
-
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "focus_library_secret_key"
+)
 app.secret_key = "focus_library_secret_key"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///focus.db"
