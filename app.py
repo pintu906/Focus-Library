@@ -10,7 +10,7 @@ from flask import (
 
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from zoneinfo import ZoneInfo
 from datetime import datetime, date, timedelta
 import os
 
@@ -2581,7 +2581,7 @@ def student_entry():
     # FIND COMPLETED SHIFTS
     # =========================================
 
-    now = datetime.now()
+    now = datetime.now(ZoneInfo("Asia/Kolkata"))
 
     active_visits = LibraryVisit.query.filter_by(
         status="Active"
