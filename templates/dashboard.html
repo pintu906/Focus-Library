@@ -1,292 +1,855 @@
+
 <!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Trekking Management Application</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>Focus Library</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+        crossorigin="anonymous">
+
+    <style>
+        /* ================================
+           GLOBAL
+        ================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #f5f7fa;
+            overflow-x: hidden;
+        }
+
+        /* ================================
+           NAVBAR
+        ================================= */
+
+        .nav-box {
+            min-height: 65px;
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* ================================
+           HERO SECTION
+        ================================= */
+
+        .main-dash {
+            width: 100%;
+        }
+
+        .main-content {
+            max-width: 1250px;
+            margin: auto;
+            padding: 60px 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .left-main h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #111827;
+        }
+
+        .left-main p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: #4b5563;
+            margin-bottom: 30px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-group .btn {
+            min-width: 160px;
+        }
+
+        /* ================================
+           HERO IMAGE
+        ================================= */
+
+        .right-main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .right-img {
+            width: 100%;
+            max-width: 520px;
+        }
+
+        .right-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            object-fit: cover;
+        }
+
+        /* ================================
+           BLOG / FEATURES
+        ================================= */
+
+        .blog-dash {
+            max-width: 1000px;
+            margin: 20px auto 60px;
+            padding: 0 20px;
+        }
+
+        .library-card {
+            width: 100%;
+            margin: 0 0 30px 0 !important;
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .library-card img {
+            width: 100%;
+            height: 100%;
+            min-height: 240px;
+            object-fit: cover;
+        }
+
+        .library-card .card-body {
+            padding: 30px;
+        }
+
+        .library-card .card-title {
+            font-size: 25px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .library-card .card-text {
+            line-height: 1.7;
+            color: #d1d5db;
+        }
+
+        /* ================================
+           FOOTER
+        ================================= */
+
+        .footer {
+            width: 100%;
+            background: #111827;
+            padding: 30px 20px;
+        }
+
+        .icon-box {
+            max-width: 700px;
+            margin: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 35px;
+            flex-wrap: wrap;
+            color: white;
+        }
+
+        .icon-box span {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .icon-box i {
+            font-size: 24px;
+        }
+
+        .icon-box label {
+            font-size: 13px;
+        }
+
+        /* ================================
+           TABLET
+        ================================= */
+
+        @media (max-width: 992px) {
+
+            .main-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 50px 25px;
+            }
+
+            .left-main p {
+                max-width: 750px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .btn-group {
+                justify-content: center;
+            }
+
+            .right-main {
+                margin-top: 10px;
+            }
+
+            .right-img {
+                max-width: 600px;
+            }
+        }
+
+        /* ================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 576px) {
+
+            .nav-box {
+                padding: 10px 15px;
+            }
+
+            .navbar-brand {
+                font-size: 20px;
+            }
+
+            .nav-box .btn {
+                font-size: 13px;
+                padding: 7px 12px;
+            }
+
+            .main-content {
+                padding: 35px 18px;
+                gap: 30px;
+            }
+
+            .left-main h1 {
+                font-size: 34px;
+                margin-bottom: 18px;
+            }
+
+            .left-main p {
+                font-size: 15px;
+                line-height: 1.7;
+                text-align: left;
+            }
+
+            .btn-group {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: 12px;
+            }
+
+            .btn-group .btn {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .right-img {
+                width: 100%;
+            }
+
+            .right-img img {
+                border-radius: 14px;
+            }
+
+            .blog-dash {
+                padding: 0 15px;
+                margin-bottom: 40px;
+            }
+
+            .library-card {
+                margin-bottom: 20px !important;
+            }
+
+            .library-card .row {
+                display: flex;
+                flex-direction: column !important;
+            }
+
+            .library-card .col-md-4,
+            .library-card .col-md-8 {
+                width: 100%;
+            }
+
+            .library-card img {
+                height: 220px;
+                min-height: 0;
+                border-radius: 0 !important;
+            }
+
+            .library-card .card-body {
+                padding: 22px;
+            }
+
+            .library-card .card-title {
+                font-size: 21px;
+            }
+
+            .library-card .card-text {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .icon-box {
+                gap: 22px;
+            }
+
+            .icon-box i {
+                font-size: 20px;
+            }
+
+            .icon-box label {
+                font-size: 11px;
+            }
+        }
+
+        /* ================================
+           VERY SMALL MOBILE
+        ================================= */
+
+        @media (max-width: 360px) {
+
+            .navbar-brand {
+                font-size: 18px;
+            }
+
+            .nav-box .btn {
+                font-size: 12px;
+            }
+
+            .left-main h1 {
+                font-size: 29px;
+            }
+
+            .left-main p {
+                font-size: 14px;
+            }
+
+            .library-card img {
+                height: 190px;
+            }
+        }
+    </style>
 </head>
 
 <body>
+
+    <!-- ================================
+         NAVBAR
+    ================================= -->
+
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
         <div class="container-fluid nav-box">
-            <a class="navbar-brand" href="#">Focus Library</a>
 
-            <!-- Button to open modal -->
-            <button class="btn btn-outline-success" type="button" data-bs-toggle="modal" data-bs-target="#resumemodal">
+            <a class="navbar-brand" href="#">
+                <i class="fa-solid fa-book-open"></i>
+                Focus Library
+            </a>
+
+            <button class="btn btn-outline-success"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#adminLoginModal">
+
+                <i class="fa-solid fa-user-shield"></i>
                 Admin Login
+
             </button>
+
         </div>
     </nav>
 
-    <!-- Modal -->
-    <div class="modal fade" id="resumemodal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered ">
+
+    <!-- ================================
+         ADMIN LOGIN MODAL
+    ================================= -->
+
+    <div class="modal fade"
+        id="adminLoginModal"
+        tabindex="-1"
+        aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered">
+
             <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">Admin Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
+                <form action="/admin_login" method="POST">
 
-                <div class="modal-body">
-                    <form action="/admin_login" method="POST">
-                        <div class="mb-3">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control">
-                        </div>
+                    <div class="modal-header">
 
-                        <div class="mb-3">
-                            <label>Password</label>
-                            <input type="password" name="password" class="form-control">
-                        </div>
-
-                        <button class="btn btn-success w-100">Login</button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="main-dash">
-        <div class="main-content">
-            <div class="left-main">
-                <h1> Focus Library</h1>
-                <div class="login-page">
-                    <p>
-                        Focus Library is a peaceful and student-friendly study space designed to help students
-                        concentrate on their studies and achieve their academic goals.
-
-                        Our library provides a quiet, comfortable, and disciplined environment where students can study
-                        without distractions. We offer a well-maintained study area, comfortable seating, proper
-                        lighting, and a positive atmosphere for focused learning.
-
-                        At Focus Library, our goal is to create a place where students can focus, learn, grow, and
-                        succeed.
-                    </p>
-                    <div class="btn-group">
-                        <!-- Register Button -->
-                        <button class="btn btn-success" type="button" data-bs-toggle="modal"
-                            data-bs-target="#resumemodal">
+                        <h5 class="modal-title">
+                            <i class="fa-solid fa-user-shield"></i>
                             Admin Login
+                        </h5>
+
+                        <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
                         </button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="resumemodal" tabindex="-1">
-                            <div class="modal-dialog modal-dialog-centered ">
-                                <div class="modal-content">
-
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Admin Login</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                    </div>
-
-                                    <div class="modal-body">
-                                        <form action="/admin_login" method="POST">
-                                            <div class="mb-3">
-                                                <label>Email</label>
-                                                <input type="email" name="email" class="form-control">
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <label>Password</label>
-                                                <input type="password" name="password" class="form-control">
-                                            </div>
-
-                                            <button class="btn btn-success w-100">Login</button>
-                                        </form>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Staff Login Modal (OUTSIDE) -->
-
-                        <!-- REGISTER BUTTON -->
-                        <button type="button" class="btn btn-lg btn-info" data-bs-toggle="modal"
-                            data-bs-target="#registerUserModal">
-                            Register Student
-                        </button>
-                        <!-- ==============================
-     STUDENT LOGIN MODAL
-================================ -->
-
-                        <div class="modal fade" id="registerUserModal" tabindex="-1" aria-hidden="true">
-
-                            <div class="modal-dialog modal-dialog-centered">
-
-                                <div class="modal-content">
-
-                                    <form method="POST" action="{{ url_for('student_login') }}">
-
-                                        <div class="modal-header">
-
-                                            <h5 class="modal-title">
-                                                <i class="fa-solid fa-user-graduate"></i>
-                                                Student Login
-                                            </h5>
-
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-
-                                        </div>
-
-
-                                        <div class="modal-body">
-
-                                            <div class="mb-3">
-
-                                                <label class="form-label">
-                                                    Student Email
-                                                </label>
-
-                                                <input type="email" name="email" class="form-control"
-                                                    placeholder="Enter your email" required>
-
-                                            </div>
-
-
-                                            <div class="mb-3">
-
-                                                <label class="form-label">
-                                                    Registration No.
-                                                </label>
-
-                                                <input type="text" name="reg_no" class="form-control"
-                                                    placeholder="Enter registration number" required>
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="modal-footer">
-
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                Cancel
-                                            </button>
-
-                                            <button type="submit" class="btn btn-info">
-                                                <i class="fa-solid fa-right-to-bracket"></i>
-                                                Login
-                                            </button>
-
-                                        </div>
-
-                                    </form>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
 
                     </div>
 
-                </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <input type="email"
+                                name="email"
+                                class="form-control"
+                                placeholder="Enter admin email"
+                                required>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            <input type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter password"
+                                required>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+
+                            Cancel
+
+                        </button>
+
+                        <button type="submit"
+                            class="btn btn-success">
+
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            Login
+
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================================
+         HERO SECTION
+    ================================= -->
+
+    <main class="main-dash">
+
+        <section class="main-content">
+
+            <div class="left-main">
+
+                <h1>
+                    Focus Library
+                </h1>
+
+                <p>
+                    Focus Library is a peaceful and student-friendly study
+                    space designed to help students concentrate on their
+                    studies and achieve their academic goals.
+
+                    <br><br>
+
+                    Our library provides a quiet, comfortable, and disciplined
+                    environment where students can study without distractions.
+                    We offer a well-maintained study area, comfortable seating,
+                    proper lighting, and a positive atmosphere for focused
+                    learning.
+
+                    <br><br>
+
+                    At Focus Library, our goal is to create a place where
+                    students can focus, learn, grow, and succeed.
+                </p>
+
+                <div class="btn-group">
+
+                    <!-- Admin Login -->
+                    <button class="btn btn-success btn-lg"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#adminLoginModal">
+
+                        <i class="fa-solid fa-user-shield"></i>
+                        Admin Login
+
+                    </button>
+
+
+                    <!-- Student Login -->
+                    <button type="button"
+                        class="btn btn-info btn-lg"
+                        data-bs-toggle="modal"
+                        data-bs-target="#studentLoginModal">
+
+                        <i class="fa-solid fa-user-graduate"></i>
+                        Student Login
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- HERO IMAGE -->
+
             <div class="right-main">
 
                 <div class="right-img">
-                    <img src="{{ url_for('static', filename='assets/img.png') }}" alt="Right Image">
-                </div>
-            </div>
-        </div>
-        <div class="blog-dash container">
 
-            <!-- Card 1 (Normal - Image Left) -->
-            <div class="card mb-3 bg-black text-white" style="max-width: 900px;">
+                    <img src="{{ url_for('static', filename='assets/img.png') }}"
+                        alt="Focus Library">
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             STUDENT LOGIN MODAL
+        ================================= -->
+
+        <div class="modal fade"
+            id="studentLoginModal"
+            tabindex="-1"
+            aria-hidden="true">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content">
+
+                    <form method="POST"
+                        action="{{ url_for('student_login') }}">
+
+                        <div class="modal-header">
+
+                            <h5 class="modal-title">
+
+                                <i class="fa-solid fa-user-graduate"></i>
+
+                                Student Login
+
+                            </h5>
+
+                            <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal">
+                            </button>
+
+                        </div>
+
+
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Student Email
+                                </label>
+
+                                <input type="email"
+                                    name="email"
+                                    class="form-control"
+                                    placeholder="Enter your email"
+                                    required>
+
+                            </div>
+
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+                                    Registration No.
+                                </label>
+
+                                <input type="text"
+                                    name="reg_no"
+                                    class="form-control"
+                                    placeholder="Enter registration number"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="modal-footer">
+
+                            <button type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+
+                                Cancel
+
+                            </button>
+
+                            <button type="submit"
+                                class="btn btn-info">
+
+                                <i class="fa-solid fa-right-to-bracket"></i>
+
+                                Login
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================
+             FEATURE CARDS
+        ================================= -->
+
+        <section class="blog-dash">
+
+            <!-- Card 1 -->
+
+            <div class="card library-card bg-black text-white">
+
                 <div class="row g-0 align-items-center">
+
                     <div class="col-md-4">
+
                         <img src="{{ url_for('static', filename='assets/img3.png') }}"
-                            class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                            alt="Clean Dashboard">
+
                     </div>
+
                     <div class="col-md-8">
+
                         <div class="card-body">
-                            <h5 class="card-title">Clean Dashboard</h5>
-                            <p class="card-text">A clean dashboard is essential for effective data visualization and user experience. It provides a clear overview of key metrics and information, making it easier for users to make informed decisions.</p>
+
+                            <h5 class="card-title">
+                                Clean Dashboard
+                            </h5>
+
+                            <p class="card-text">
+                                A clean and organized dashboard provides
+                                a clear overview of important information
+                                and makes library management easier.
+                            </p>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Card 2 (Reverse - Image Right) -->
-            <div class="card mb-3 bg-black text-white" style="max-width: 900px; margin-left: 350px;">
+
+            <!-- Card 2 -->
+
+            <div class="card library-card bg-black text-white">
+
                 <div class="row g-0 align-items-center flex-row-reverse">
+
                     <div class="col-md-4">
+
                         <img src="{{ url_for('static', filename='assets/img2.png') }}"
-                            class="img-fluid rounded-end h-100" style="object-fit: cover;">
+                            alt="Books">
+
                     </div>
+
                     <div class="col-md-8">
+
                         <div class="card-body">
-                            <h5 class="card-title">Books</h5>
-                            <p class="card-text">A collection of books is a great way to expand your knowledge and imagination. Whether you prefer fiction or non-fiction, there's always something new to discover.</p>
+
+                            <h5 class="card-title">
+                                Books
+                            </h5>
+
+                            <p class="card-text">
+                                A collection of books creates an excellent
+                                environment for learning, exploration and
+                                continuous knowledge development.
+                            </p>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- Card 3 (Normal) -->
-            <div class="card mb-3 bg-black text-white" style="max-width: 900px;">
+
+            <!-- Card 3 -->
+
+            <div class="card library-card bg-black text-white">
+
                 <div class="row g-0 align-items-center">
+
                     <div class="col-md-4">
-                        <img src="{{ url_for('static', filename='assets/img.jpg') }}"
-                            class="img-fluid rounded-start h-100" style="object-fit: cover;">
+
+                        <img src="{{ url_for('static', filename='assets/img1.png') }}"
+                            alt="Library Management">
+
                     </div>
+
                     <div class="col-md-8">
+
                         <div class="card-body">
-                            <h5 class="card-title">Owner</h5>
-                            <p class="card-text">The owner of the property is responsible for its maintenance and management.</p>
+
+                            <h5 class="card-title">
+                                Library Management
+                            </h5>
+
+                            <p class="card-text">
+                                Easy management of students, seats, books,
+                                payments and library visits through a
+                                centralized system.
+                            </p>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <div class="card mb-3 bg-black text-white" style="max-width: 900px; margin-left: 350px;">
+
+            <!-- Card 4 -->
+
+            <div class="card library-card bg-black text-white">
+
                 <div class="row g-0 align-items-center flex-row-reverse">
-                    <div class="col-md-4">
-                        <img src="{{ url_for('static', filename='assets/tution.avif') }}"
-                            class="img-fluid rounded-end h-100" style="object-fit: cover;">
-                    </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">Tution Classes</h5>
-                            <p class="card-text">Tution classes are private or group lessons provided by tutors to students for academic support and improvement.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-             
 
-        </div>
+                    <div class="col-md-4">
+
+                        <img src="{{ url_for('static', filename='assets/tution.avif') }}"
+                            alt="Study Support">
+
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div class="card-body">
+
+                            <h5 class="card-title">
+                                Study Support
+                            </h5>
+
+                            <p class="card-text">
+                                A comfortable and disciplined environment
+                                helps students maintain focus and build
+                                consistent study habits.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================
+             FOOTER
+        ================================= -->
+
         <footer class="footer">
+
             <div class="icon-box">
-                <span><i class="fa-brands fa-chrome"></i>
-                    <label>Chorme</label></span>
-                <span> <i class="fa-brands fa-youtube"></i>
-                    <label>You Tube</label></span>
+
+                <span>
+                    <i class="fa-brands fa-chrome"></i>
+                    <label>Chrome</label>
+                </span>
+
+                <span>
+                    <i class="fa-brands fa-youtube"></i>
+                    <label>YouTube</label>
+                </span>
+
                 <span>
                     <i class="fa-brands fa-facebook"></i>
                     <label>Facebook</label>
                 </span>
+
                 <span>
                     <i class="fa-brands fa-linkedin"></i>
-                    <label>Linkedin</label>
+                    <label>LinkedIn</label>
                 </span>
 
             </div>
+
         </footer>
-    </div>
+
+    </main>
+
+
+    <!-- Bootstrap JS -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
+
 </body>
 
 </html>
+

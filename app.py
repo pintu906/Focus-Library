@@ -12,7 +12,12 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from datetime import datetime, date, timedelta
+import os
 
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "focus_library_secret_key"
+)
 
 # =========================================================
 # APP CONFIGURATION
